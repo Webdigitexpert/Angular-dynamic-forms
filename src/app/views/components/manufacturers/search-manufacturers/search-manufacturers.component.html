@@ -1,0 +1,197 @@
+<div class="content-wr">
+    <h1 class="mb-4">Manufacturers</h1>
+    <div class="search-form form-field">
+        <div class="search-field">
+            <div class="field-div">
+                <input
+                type="text"
+                class="form-control"
+                placeholder="Name"
+                [(ngModel)]="searchNamefilter"
+              />
+            </div>
+            <div class="field-div">
+                
+                <app-select-categories (SelectedValue)="getselectedCategory($event)" ></app-select-categories>
+                <!-- <select
+                [(ngModel)]="parentCategory"
+                class="selectpicker form-control form-select"
+                title="Select Category"
+                data-style="btn-info"
+                id="Category"
+                name="Category"
+              >
+                <option class="valueNull" selected disabled value="">
+                  ---Select Category---
+                </option>
+                <option class="valueNull" value="">All</option>
+                <option
+                  *ngFor="let category of categoriesFilter"
+                  [value]="category.id"
+                >
+                  {{ category.categoryName }}
+                </option>
+              </select> -->
+            </div>
+            <div class="field-div">
+                <select
+                [(ngModel)]="domainFilter"
+                class="selectpicker form-control form-select"
+                title="Select Domain"
+                data-style="btn-info"
+                id="Domain"
+                name="Domain"
+              >
+                <option class="valueNull" selected disabled value="">
+                  Select Domain
+                </option>
+                <option class="valueNull" value="">All</option>
+                <option *ngFor="let domain of domains" [value]="domain.id">
+                  {{ domain.domainName }}
+                </option>
+              </select>
+            </div>
+        </div>
+        <div class="search-add-wr">
+                <button
+                type="submit"
+                class="btn-style btn-block mr-2"
+                (click)="searchManufacturers()"
+              >
+                Search
+              </button>
+              <button
+                type="button"
+                class="btn-style btn-block m-0"
+                (click)="addManufacturers($event)"
+              >
+                Add
+              </button>
+        </div>
+    </div>
+    <section class="list-section mt-5">
+        <div class="loader-container" *ngIf="isLoadedTable">
+            <app-loader></app-loader>
+        </div>
+        <form *ngIf="!isLoadedTable">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <!-- <th scope="col" width="70">Sno.</th> -->
+                        <th scope="col" (click)="sort('manufacturerName')" style="cursor: pointer;">
+                            <i class="fa fa-arrow-down" style="opacity: 0.1;"
+                            *ngIf="sortOrder != 'asc' && sortOrder != 'desc'"
+                                aria-hidden="true"
+                                ></i>
+                            <i
+                              *ngIf="sortOrder == 'asc'"
+                              class="fa fa-arrow-up"
+                              aria-hidden="true"
+                            ></i>
+                          <i
+                            *ngIf="sortOrder == 'desc'"
+                            class="fa fa-arrow-down"
+                            aria-hidden="true"
+                          ></i>
+                            <span class="ms-2 d-inline-block">Name</span>
+                          </th>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                        <!-- <th scope="col">Domain</th> -->
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center" width="120">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let manufacturer of manufacturersList">
+                        <!-- <th scope="row" class="align-middle">{{manufacturer.id}}</th> -->
+                        <th class="align-middle">{{manufacturer.manufacturerName}} </th>
+                        <th class="text-center" >
+                          <p *ngIf="manufacturer.manufacturerLogo"> <img 
+                             src="{{  manufacturer.manufacturerLogo.url }}"
+                             height="60"
+                             alt="{{ manufacturer.manufacturerLogo.alternateText }}"
+                           />
+                         </p>
+                         
+                           <p *ngIf="!manufacturer.manufacturerLogo">-</p>
+                         </th>
+                         
+                        
+
+
+
+
+                        
+                        <!-- <th  class="text-center"> -->
+                            <!-- <img src="{{manufacturer.manufacturerLogo != null ? manufacturer.manufacturerLogo.url : '-'}}" height="40" alt=""> -->
+                            <!-- <p *ngIf="manufacturer.manufacturerLogo"> <img 
+                              src="{{ manufacturer.manufacturerLogo.url }}"
+                              height="60"
+                              alt="{{ manufacturer.manufacturerLogo.alternateText }}"
+                            />
+                          </p>
+                          
+                            <p *ngIf="!manufacturer.manufacturerLogo">-</p>
+                        </th> -->
+                        <!-- <td *ngIf="!manufacturer.manufacturerLogo" class="text-center">
+                            -
+                        </td> -->
+
+
+
+                        <td class="align-middle">
+                            <!-- {{manufacturer.parentCategoryName ? manufacturer.parentCategoryName : '-'}} -->
+
+                            <span *ngFor="let parent of manufacturer.categoryData | keyvalue">
+                                <strong>{{parent.value.parentCategoryName}}</strong>  -
+                                <span class="lastcomaremove">
+                                    <small *ngFor="let child of parent.value.childCategoryName | keyvalue">
+                                        {{child.value}}
+                                    </small>
+                                </span> &nbsp;
+                                <br>
+                            </span>
+                        </td>
+
+
+
+
+
+                        <td class="align-middle">{{manufacturer.description}}</td>
+                        <!-- <td class="align-middle">{{ manufacturer.domainId ? getManufacturersByFilter(manufacturer.domainId).domainName : '-'}}</td> -->
+                        <td class="align-middle text-center">{{ manufacturer.active ? 'active' : 'in-active'}}</td>
+                        <td class="align-middle text-center">
+                            <div class="d-flex justify-content-center">
+
+                                <span *ngIf="manufacturer.active" class="edit-icon mr-3" title="Edit" (click)="editManufacturers(manufacturer)"></span>
+                                <span *ngIf="!manufacturer.active" class="edit-icon mr-3" style="opacity: 0.2;" title="disabled"></span>
+
+                                <!-- <span class="del-icon mr-3" title="Delete" (click)="deleteManufacturers(manufacturer)"></span> -->
+
+
+                                <span *ngIf="!manufacturer.active" class="markdone-icon" title="Active" (click)="changeStatusManufacturers(manufacturer)"></span>
+                                <span *ngIf="manufacturer.active" class="close-bg" title="Deactive"><span class="markundone-icon"
+                                        (click)="changeStatusManufacturers(manufacturer)"></span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center p-2 align-center">
+              
+                <ngb-pagination [collectionSize]="collectionSize" [(page)]="service.page"
+                    (pageChange)="refreshManufacturers()" [maxSize]="service.maxSize"
+                    class="pagination-rounded pagination-here">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                    <ng-template ngbPaginationEllipsis>...</ng-template>
+                    <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+                </ngb-pagination>
+            </div>
+        </form>
+
+    </section>
+</div>

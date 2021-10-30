@@ -1,0 +1,86 @@
+<div class="content-wr">
+  <h2 class="mt-2">Attribute Set (Specification)</h2>
+  <div class="search-form form-field">
+    <div class="search-field">
+      <div class="field-div">
+        <span class="mt-2">Attribute Set Name</span>
+        <input type="text" class="form-control" placeholder="Name" value="{{attributeSet.attributeSetName}}" disabled />
+    </div>
+    </div>
+    <div class="search-field">
+      <div class="field-div">
+        <span class="mt-2">Attribute Set status</span>
+        <input type="text" class="form-control" placeholder="Status" value="{{attributeSet.active ? 'Active' : 'In-active'}}" disabled />
+    </div>
+    </div>
+      <div class="search-add-wr">
+        <button type="button" [disabled]="!attributeSetStatus" [ngStyle]="{'opacity': !attributeSetStatus ? '0.2' : '1' }" title="{{ !attributeSetStatus ? 'Please active parent Attribute Set to Add.' : ''}}" class="btn-style btn-block m-0" (click)="opendialog($event)">
+          Add
+        </button>
+      </div>
+    </div>
+    <section class="list-section mt-5">
+      <div class="loader-container" *ngIf="isLoadedTable">
+          <app-loader></app-loader>
+      </div>
+  
+    <form *ngIf="!isLoadedTable">
+      <table class="table table-bordered attributeSetSpecificationTable">
+        <thead class="thead-light">
+          <tr>
+            <!-- <th width="70" scope="col">Sno.</th> -->
+            <th scope="col" (click)="sort('attributeLabel')">
+              <i *ngIf="sortDirection=='asc'" class="fa fa-arrow-up" aria-hidden="true"></i>
+              <i *ngIf="sortDirection=='desc'" class="fa fa-arrow-down" aria-hidden="true"></i>
+              Label
+            </th>
+            <th width="120" scope="col">
+              Status
+            </th>
+  
+            <th width="120" scope="col">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let attributeSetSpecification of attributeSetSpecificationList">
+            <!-- <td scope="row" width="70">
+                <strong>{{ attributeSetSpecification.id }}</strong>
+              </td> -->
+            <td>
+              {{ attributeSetSpecification.attributeLabel }}
+            </td>
+            <td>
+              <p *ngIf="attributeSetSpecification.active">Active</p>
+              <p *ngIf="!attributeSetSpecification.active">In-active</p>
+  
+            </td>
+  
+            <td width="120">
+              <div class="d-flex">
+                <span *ngIf="attributeSetStatus && attributeSetSpecification.active" class="edit-icon mr-3" title="Edit" (click)="editAttributeSetSpecification(attributeSetSpecification)"></span>
+                <span *ngIf="!attributeSetStatus || !attributeSetSpecification.active" class="edit-icon mr-3" style="opacity: 0.2;" title="{{ !attributeSetStatus ? 'Please active parent Attribute Set to edit.' : 'disabled'}}"></span>
+
+                <span *ngIf="!attributeSetSpecification.active" class="markdone-icon" title="Active" (click)="changeStatusAttributeSetSpecifications(attributeSetSpecification)"></span>
+                <span *ngIf="attributeSetSpecification.active" class="close-bg" title="Deactive"><span class="markundone-icon" (click)="changeStatusAttributeSetSpecifications(attributeSetSpecification)"></span>
+              </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+   
+
+      <div class="d-flex justify-content-center p-2 align-center"><ngb-pagination [collectionSize]="collectionSize" [(page)]="service.page" 
+        (pageChange)="refreshAttributeSetSpecifications()" [maxSize]="service.maxSize" class="pagination-rounded pagination-here"
+        >
+          <ng-template ngbPaginationPrevious>Prev</ng-template>
+          <ng-template ngbPaginationNext>Next</ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
+      </div>
+    </form>
+    </section>
+  </div>

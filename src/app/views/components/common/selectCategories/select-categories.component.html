@@ -1,0 +1,10 @@
+<ngx-dropdown-treeview
+  [buttonClass]="buttonClass"
+  [config]="config"
+  [items]="items"
+  (selectedChange)="onSelectedChange($event)"
+  (filterChange)="onFilterChange($event)"
+  (click)="getParent($event)"
+  (ViewChild)="viewParents($event)"
+>
+</ngx-dropdown-treeview>

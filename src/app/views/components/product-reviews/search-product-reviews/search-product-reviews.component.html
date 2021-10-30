@@ -1,0 +1,245 @@
+<div class="content-wr">
+    <h1 class="mb-4">Product Review</h1>
+    <div class="search-form form-field">
+        <div class="search-field">
+            <div class="field-div">
+                <input type="text" class="form-control" placeholder="Name" [(ngModel)]="searchNamefilter">
+            </div>
+            <div class="field-div ">
+                <select [(ngModel)]="domainFilter" class="selectpicker form-control form-select" title="Select Domain"
+                    data-style="btn-info" id="Domain" name="Domain">
+                    <option class="valueNull" selected disabled value="">
+                        Select Domain
+                    </option>
+                    <option class="valueNull" value="">All</option>
+                    <option *ngFor="let domain of domains" [value]="domain.id">
+                        {{ domain.domainName }}
+                    </option>
+                </select>
+            </div>
+            <div class="field-div">
+                <select [(ngModel)]="categoryFilter" class="selectpicker form-control form-select"
+                    title="Select Category" data-style="btn-info" id="Category" name="Category">
+                    <option class="valueNull" selected disabled value="">
+                        Select Category
+                    </option>
+                    <option class="valueNull" value="">All</option>
+                    <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.categoryName }}
+                    </option>
+                </select>
+            </div>
+            <div class="field-div">
+                <select [(ngModel)]="statusFilter" class="selectpicker form-select form-control" title="Select Status" data-style="btn-info">
+                    <option class="valueNull" selected disabled value="">
+                        Select Status
+                    </option>
+                    <option value="approved">Approved</option>
+                    <option value="declined">Declined</option>
+                    <option value="awaiting-approval">Awaiting Approval</option>
+                </select>
+            </div>
+            <div class="field-div">
+                <div class="selecpicker">
+                    <select [(ngModel)]="ratingFilter" class="selectpicker form-select form-control" title="Select Rating" data-style="btn-info"
+                        id="expertrating" name="expertrating">
+                        <option class="valueNull" selected disabled value="">
+                            Select Rating
+                        </option>
+                        <option value="0.5">0.5</option>
+                        <option value="1">1</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2">2</option>
+                        <option value="2.5">2.5</option>
+                        <option value="3">3</option>
+                        <option value="3.5">3.5</option>
+                        <option value="4">4</option>
+                        <option value="4.5">4.5</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="search-add-wr">
+            <button type="submit" class="btn-style btn-block mr-2" (click)="searchReviews()">Search</button>
+            <button type="button" class="btn-style btn-width m-0" (click)="addReview($event)">Add</button>
+        </div>
+    </div>
+    <section class="list-section mt-5">
+        <div class="loader-container" *ngIf="isLoadedTable">
+            <app-loader></app-loader>
+        </div>
+        <form *ngIf="!isLoadedTable">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" width="370">Review</th>
+                        <th scope="col" (click)="sort('rating')" style="cursor: pointer;">
+                            <i class="fa fa-arrow-down" style="opacity: 0.1;"
+                                *ngIf="sortOrder != 'asc' && sortOrder != 'desc'" aria-hidden="true"></i>
+                            <i *ngIf="sortOrder == 'asc'" class="fa fa-arrow-up" aria-hidden="true"></i>
+                            <i *ngIf="sortOrder == 'desc'" class="fa fa-arrow-down" aria-hidden="true"></i>
+                            <span class="ms-2 d-inline-block">Rating</span>
+                        </th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" width="120" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let review of reviewsList">
+                        <td class="align-middle">{{review.reviewText}}</td>
+                        <td>
+                            <div *ngIf="review.reviewRating=='0.5'" class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='0.5'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='1.5'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='2'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='2.5'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='3'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='3.5'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='4'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='4.5'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+                            <div *ngIf="review.reviewRating=='5'"  class="d-flex align-items-center">
+                                <div class="rating-div me-2 small">
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="fill"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                </div>
+                                ({{review.reviewRating}})
+                            </div>
+
+                        </td>
+                        <td class="align-middle">{{review.reviewBy}}</td>
+                        <td class="align-middle">{{review.productName ? review.productName : '-'}}</td>
+                        <td class="align-middle">{{review.createdDate | date:'M-d-yyyy'}}</td>
+                        <td class="align-middle text-center">{{ review.active ? 'active' : 'in-active'}}</td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-center">
+
+                                <span *ngIf="review.active" class="edit-icon mr-3" title="Edit" (click)="editReview(review)"></span>
+                                <span *ngIf="!review.active" class="edit-icon mr-3" style="opacity: 0.2;" title="disabled"></span>
+
+
+                                <!-- <span class="del-icon mr-3" title="Delete" (click)="deleteReview(review)"></span> -->
+                                <span *ngIf="!review.active" class="markdone-icon" title="Active" (click)="changeStatusreviews(review)"></span>
+                                <span *ngIf="review.active" class="close-bg" title="Deactive"><span class="markundone-icon"
+                                        (click)="changeStatusreviews(review)"></span>
+                                </span>
+
+                                <!-- <span *ngIf="review.status != 'Approved'" class="ms-2 small-round-btn" title="Approved" (click)="approveOrDeclineReview(review, 'Approved')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                      </svg>
+                                </span>
+
+                                <span *ngIf="review.status == 'Approved'" class="ms-2 small-round-btn" title="Decline" (click)="approveOrDeclineReview(review, 'Decline')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                                      </svg>
+                                </span> -->
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+        <div class="d-flex justify-content-center p-2 align-center">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="service.page"
+                (pageChange)="refreshReviews()" [maxSize]="service.maxSize"
+                class="pagination-rounded pagination-here">
+                <ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+                <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+            </ngb-pagination>
+        </div>
+    </section>
+</div>

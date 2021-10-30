@@ -1,0 +1,332 @@
+<div class="loader-container" *ngIf="isfromLoaded">
+    <div class="mt-5"></div>
+    <div class="pt-5"></div>
+    <app-loader></app-loader>
+</div>
+<div class="content-wr" *ngIf="!isfromLoaded">
+    <form [formGroup]="productForm">
+        <h1 class="mb-4">Add Product</h1>
+        <section class="add-product form-field">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Name</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control" formControlName="productName">
+                            <div
+                                *ngIf="productForm.get('productName').touched && productForm.get('productName').errors">
+                                <p *ngIf="productForm.get('productName').errors.required" class="errMsg">*Please enter
+                                    name
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2"> Select Domain </label>
+                        <select class=" form-control form-select" formControlName="domainMasters">
+                            <option class="valueNull" selected disabled value="">
+                                Select Domain
+                            </option>
+                            <option *ngFor="let doma of domains" [value]="doma.id">
+                                {{ doma.domainName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Select Manufacturer </label>
+                        <select class=" form-control form-select" formControlName="manufacturerMaster">
+                            <option class="valueNull" selected disabled value="">
+                                Select Manufacturer
+                            </option>
+                            <option *ngFor="let manuf of manufacturers" [value]="manuf.id">
+                                {{ manuf.manufacturerName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Select Category </label>
+                        <select class=" form-control form-select" formControlName="categoryMasters">
+                            <option class="valueNull" value="">All</option>
+                            <!-- <option *ngFor="let cat of categories" [value]="cat.id">
+                                {{ cat.categoryName }}
+                            </option> -->
+                            <optgroup  *ngFor="let parent of categoryaddedit" [label]="parent.categoryName">
+                                <option *ngFor ="let child of parent.subCategory" [value]="child.id" >{{child.categoryName}}</option>
+                              </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Is Popular</label>
+                        <select class="form-control form-select" formControlName="isPopular">
+                            <option class="valueNull" selected disabled value="">
+                                Select is Popular
+                            </option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Launch Date</label>
+                        <input type="text" class="form-control" formControlName="productLaunchDate" [bsConfig]="{containerClass:'theme-blue'}" bsDatepicker>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Discontinued Date</label>
+                        <input type="text" class="form-control" formControlName="productExpiryDate" [bsConfig]="{containerClass:'theme-blue'}" bsDatepicker>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Currency</label>
+                        <select class="form-control form-select" formControlName="currency">
+                            <option selected value="INR">
+                                INR
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Price</label>
+                        <input type="number" class="form-control" formControlName="productPrice">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Tax Amount</label>
+                        <input type="number" class="form-control" formControlName="productTaxAmount">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Make </label>
+                        <input type="text" class="form-control" formControlName="productMake">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Model</label>
+                        <input type="text" class="form-control" formControlName="productModel">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group pt-3">
+                                <div class="d-flex align-items-center mas-var-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" class="d-none td-data-checkbox" id="ismaster"
+                                            formControlName="ismaster" />
+                                        <label for="ismaster" class="d-flex"><span
+                                                class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Master</label>
+                                    </div>
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" class="d-none td-data-checkbox" id="isvarient"
+                                            formControlName="isvarient" />
+                                        <label for="isvarient" class="d-flex"><span
+                                                class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Varient</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Expert Rating</label>
+                                <div class="position-relative">
+                                    <div class="selecpicker">
+                                        <select class="form-control form-select" formControlName="productExpertRating">
+                                            <option class="valueNull" selected disabled value="">
+                                                Select Rating
+                                            </option>
+                                            <option value="0.5">0.5</option>
+                                            <option value="1">1</option>
+                                            <option value="1.5">1.5</option>
+                                            <option value="2">2</option>
+                                            <option value="2.5">2.5</option>
+                                            <option value="3">3</option>
+                                            <option value="3.5">3.5</option>
+                                            <option value="4">4</option>
+                                            <option value="4.5">4.5</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Expert Review</label>
+                            <textarea formControlName="productExpertReview" class="form-control" rows="7"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Title</label>
+                                <input type="text" class="form-control" formControlName="titleSEO">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Keywords</label>
+                                <input type="text" class="form-control" formControlName="keywordSEO">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Description</label>
+                                <textarea formControlName="descriptionSEO" class="form-control" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Short Description</label>
+                        <div class="position-relative">
+                            <textarea formControlName="productShortDescription" class="form-control"
+                                rows="7"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Upload Video (Only mp4) </label>
+                        <!--previous data start here-->
+                        <div class="previous-upload-data mb-4 align-items-center">
+                            <div *ngFor='let video of uploadedvideos | keyvalue'
+                                class="data-loop-div d-flex  align-items-center w-100">
+                                <div class="video-div mr-3">
+                                    <video playsinline style="pointer-events: none;" class="w-100">
+                                        <source [src]="video.value.url" type="{{video.value.type}}">
+                                    </video>
+                                </div>
+                                <div class="w-100">
+                                    {{video.value.name}}
+                                    <p><b>Description: </b>{{video.value.description}}</p>
+                                </div>
+                                <span class="del-icon" (click)="deleteThisVideo(video.key)"></span>
+                            </div>
+                        </div>
+                        <!--previous data start here-->
+                        <div class="upload-video-div">
+                            <div class="upload-div-wr">
+                                <div class="upload-input">
+                                    <input type="file" #productVideo accept="video/mp4,video/x-m4v,video/*"
+                                        class="form-control" placeholder="" (change)="videofileChangeEvent($event)">
+                                    <textarea #productVideodesc class="form-control mt-2" id="" cols="30"
+                                        rows="3"></textarea>
+                                </div>
+                                <div class="upload-action d-flex align-items-center justify-content-between">
+                                    <span class="plus-icon upload-video-btn"
+                                        (click)="onVideoUploadChange(productVideo, productVideodesc)"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Upload Image (only png, jpg, gif)</label>
+                        <!--previous data start here-->
+                        <div class="previous-upload-data mb-4 align-items-center">
+
+                            <div *ngFor='let image of uploadedimages | keyvalue'
+                                class="data-loop-div d-flex  align-items-center w-100">
+                                <div class="img-div mr-3">
+                                    <img [src]="image.value.url" alt="">
+                                </div>
+                                <div class="w-100">
+                                    {{image.value.name}}
+                                    <p><b>Description: </b>{{image.value.description}}</p>
+                                </div>
+                                <span class="del-icon" (click)="deleteThisImage(image.key)"></span>
+                            </div>
+
+                        </div>
+                        <!--previous data start here-->
+                        <div class="upload-image-div">
+                            <div class="upload-div-wr">
+                                <div class="upload-input">
+                                    <input type="file" #productImage accept="image/png, image/gif, image/jpeg"
+                                        class="form-control" placeholder="" (change)="fileChangeEvent($event)">
+                                    <textarea #productImagedesc class="form-control mt-2" id="" cols="30"
+                                        rows="3"></textarea>
+                                </div>
+                                <div class="upload-action d-flex align-items-center justify-content-between"
+                                    (click)="onImageUploadChange(productImage, productImagedesc)">
+                                    <span class="plus-icon upload-image-btn"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Attribute Set</label>
+
+                        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" formArrayName="productAttributes">
+                                <ngb-panel title="{{splitstring(attribute.key)[1]}}" *ngFor="let attribute of attributes  | keyvalue; let i=index;">
+                                    <ng-template ngbPanelContent>
+                                        <div class="card-body">
+                                            <div class="row align-items-center" *ngFor="let childItem of attribute.value  | keyvalue; let j = index;">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="form-label mb-2 pd-left">
+                                                           {{childItem.value.attributeLabel}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" [formGroupName]="childItem.value.index">
+                                                    <div class="form-group">
+                                                        <input formControlName="id" name="productAttributes[{{i}}][{{j}}]['id']"
+                                                        type="hidden" value="{{childItem.value.attributeSetId}}">
+                                                        <input formControlName="attributeLabel" name="productAttributes[{{i}}][{{j}}]['attributeLabel']"
+                                                        type="hidden" value="{{childItem.value.attributeLabel}}">
+                                                        <input formControlName="attributeValue" name="productAttributes[{{i}}][{{j}}]['attributeValue']"
+                                                        type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                        </ngb-accordion>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="d-flex align-items-center">
+            <button type="button" (click)="!isAddBtnLoaded ? addProduct() : ''"
+                class="btn-style d-flex justify-content-center align-items-center mr-2">
+                <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                <span *ngIf="!isAddBtnLoaded">SUBMIT</span>
+            </button>
+            <button type="button" (click)="cancleProduct()"
+                class="btn-style d-flex justify-content-center  btn-width align-items-center mx-2">CANCEL</button>
+        </div>
+    </form>
+</div>

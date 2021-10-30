@@ -1,0 +1,205 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="dealerForm">
+            <div class="form-field">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">ProductId</label>
+                        <input [formControl]="controls.productId" type="text"  class="form-control">
+                        <div>
+                        <div *ngIf="dealerForm.get('productId').touched && dealerForm.get('productId').errors" >
+                            <p *ngIf="dealerForm.get('productId').errors.required" class="errMsgField">*Product id is required</p>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">Address Line 1</label>
+                        <input [formControl]="controls.address" type="text"  class="form-control">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">Address Line 2</label>
+                        <input [formControl]="controls.address" type="text"  class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col">
+                         <div class="form-group">
+                            <label class="form-label mb-2">Select City</label>
+                            <select [formControl]="controls.city" class="form-select form-control form-field" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && dealerForm.get('city').errors }">
+                                <option value="Active">Noida</option>
+                                <option value="InActive">Delhi</option>
+                              </select>
+                        </div>
+                        <div *ngIf="controls.city.touched && controls.city.errors" >
+                            <p *ngIf="controls.city.errors.required" class="errMsg">*Select any option</p>
+                        </div>
+
+                    </div>
+                </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">PINCode</label>
+                        <input [formControl]="controls.PINCode" type="text"  class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">Is Active</label>
+                        <div class="checkbox">
+                            <label><input type="checkbox" class="check-space" value="">Yes</label>
+                          </div>
+                          <div class="checkbox">
+                            <label><input type="checkbox" class="check-space" value="">No</label>
+                          </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">Test Drive Available</label>
+                        <div class="checkbox">
+                            <label><input type="checkbox" class="check-space" value="">Yes</label>
+                          </div>
+                          <div class="checkbox">
+                            <label><input type="checkbox" class="check-space" value="">No</label>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">Email</label>
+                        <input [formControl]="controls.email" type="text"  class="form-control">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">ShowroomContact</label>
+                        <input [formControl]="controls.showroomContact" type="text"   class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">ServiceContact</label>
+                        <input [formControl]="controls.serviceContact" type="text"  class="form-control">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">TestDriveContact</label>
+                        <input [formControl]="controls.testDriveContact" type="text"   class="form-control">
+                    </div>
+                  </div>
+                <div class="d-flex align-items-center justify-content-start footers-btn mt-4 col-md-12">
+                    <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2" (click)="createDealer()" >ADD</button>
+                    <button type="button" data-dismiss="modal" class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">CANCEL</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="dealerForm">
+                <div class="form-field">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">ProductId</label>
+                            <input [formControl]="controls.productId" type="text" value="data.productId" class="form-control">
+                            <div>
+                            <div *ngIf="dealerForm.get('productId').touched && dealerForm.get('productId').errors" >
+                                <p *ngIf="dealerForm.get('productId').errors.required" class="errMsgField">*Product id is required</p>
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">Address Line 1</label>
+                            <input [formControl]="controls.address" type="text"  value="data.address" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">Address Line 2</label>
+                            <input [formControl]="controls.address" type="text" value="data.address" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col">
+                             <div class="form-group">
+                                <label class="form-label mb-2">Select City</label>
+                                <select [formControl]="controls.city" class="form-select form-control form-field" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && dealerForm.get('city').errors }">
+                                    <option value="Active">Noida</option>
+                                    <option value="InActive">Delhi</option>
+                                  </select>
+                            </div>
+                            <div *ngIf="controls.city.touched && controls.city.errors" >
+                                <p *ngIf="controls.city.errors.required" class="errMsg">*Select any option</p>
+                            </div>
+    
+                        </div>
+                    </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">PINCode</label>
+                            <input [formControl]="controls.PINCode" type="text" value="data.PINCode" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">Is Active</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" class="check-space" value="">Yes</label>
+                              </div>
+                              <div class="checkbox">
+                                <label><input type="checkbox" class="check-space" value="">No</label>
+                              </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">Test Drive Available</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" class="check-space" value="">Yes</label>
+                              </div>
+                              <div class="checkbox">
+                                <label><input type="checkbox" class="check-space" value="">No</label>
+                              </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">Email</label>
+                            <input [formControl]="controls.email" type="text" value="data.email" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">ShowroomContact</label>
+                            <input [formControl]="controls.showroomContact" type="text" value="data.showroomContact"  class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">ServiceContact</label>
+                            <input [formControl]="controls.serviceContact" type="text" value="data.serviceContact"  class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">TestDriveContact</label>
+                            <input [formControl]="controls.testDriveContact" type="text" value="data.testDriveContact"  class="form-control">
+                        </div>
+                      </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn mt-4 col-md-12">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2" (click)="editDealer()" >EDIT</button>
+                        <button type="button" data-dismiss="modal" class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>green_check</title>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-667.000000, -558.000000)" fill="#32D54B">
+            <g id="green_check" transform="translate(667.000000, 558.000000)">
+                <path d="M9,0 C13.9705627,0 18,4.02943725 18,9 C18,13.9705627 13.9705627,18 9,18 C4.02943725,18 0,13.9705627 0,9 C0,4.02943725 4.02943725,0 9,0 Z M12.6850253,5.09983971 L6.589,11.195 L4.49401642,9.10888324 L3.50598358,10.1007457 L6.59095647,13.1738075 L13.6749747,6.0897892 L12.6850253,5.09983971 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

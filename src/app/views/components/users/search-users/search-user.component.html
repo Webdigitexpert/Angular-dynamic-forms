@@ -1,0 +1,143 @@
+<div class="content-wr">
+  <h1 class="mb-4">Users</h1>
+  <div class="search-form form-field">
+    <div class="search-field">
+      <div class="field-div">
+        <input
+          type="text"
+          trims
+          class="form-control"
+          placeholder="Name"
+          [(ngModel)]="searchKey"
+          (keyup)="getData($event)"
+        />
+      </div>
+      <div class="field-div">
+        <select
+          [(ngModel)]="isActive"
+          class="form-select form-control form-field"
+          aria-label="Default select example"
+        >
+          <option class="valueNull" selected value="">All</option>
+          <option value="1">Active</option>
+          <option value="0">In-active</option>
+        </select>
+      </div>
+    </div>
+    <div class="search-add-wr">
+      <button
+        type="submit"
+        class="btn-style btn-block mr-2"
+        (click)="userStatus()"
+      >
+        Search
+      </button>
+      <button
+        type="button"
+        class="btn-style btn-block m-0"
+        (click)="opendialog($event)"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+
+  <section class="list-section mt-5">
+    <div class="loader-container" *ngIf="isLoadedTable">
+        <app-loader></app-loader>
+    </div>
+
+  <form *ngIf="!isLoadedTable">
+    <table class="table table-bordered usertable">
+      <thead class="thead-light">
+        <tr>
+          <!-- <th width="70"  (click)="sort('id')" scope="col">
+            <i *ngIf="sortDirection=='ascid'" class="fa fa-arrow-up" aria-hidden="true"></i>
+            <i *ngIf="sortDirection=='descid'" class="fa fa-arrow-down" aria-hidden="true"></i>
+            Sno.</th> -->
+          <th scope="col" (click)="sort('name')">
+            <i
+              *ngIf="sortDirection == 'asc'"
+              class="fa fa-arrow-up"
+              aria-hidden="true"
+            ></i>
+            <i
+              *ngIf="sortDirection == 'desc'"
+              class="fa fa-arrow-down"
+              aria-hidden="true"
+            ></i>
+            Name
+          </th>
+          <!-- <th scope="col" sortable="active"  (sort)="onSort($event)" >Status</th> -->
+          <th scope="col">Status</th>
+          <th width="120" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <!-- <td scope="row" width="70">
+            <strong>{{ user.id }}</strong>
+          </td> -->
+          <td>
+            {{ user.name }}
+          </td>
+          <td>
+            <p *ngIf="user.active">Active</p>
+            <p *ngIf="!user.active">In-active</p>
+          </td>
+          <td width="120">
+            <div class="d-flex">
+              <button
+                [disabled]="!user.active"
+                class="btn btn-default"
+                (click)="editUser(user)"
+              >
+                <span class="edit-icon mr-3" title="Edit"></span>
+              </button>
+
+              <span
+                (click)="activateDeactivate(user)"
+                *ngIf="!user.active"
+                class="markdone-icon mr-3"
+                title="Active"
+              ></span>
+
+              <span
+                *ngIf="user.active"
+                (click)="activateDeactivate(user)"
+                class="close-bg mr-3"
+                title="Deactive"
+                ><span class="markundone-icon" title="Deactivate"></span>
+              </span>
+
+              <!-- <span
+                class="del-icon"
+                title="Delete"
+                (click)="deleteUser(user)"
+              ></span> -->
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      *ngIf="isPagination"
+      class="d-flex justify-content-center p-2 align-center"
+    >
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="service.page"
+        (pageChange)="refreshCountries()"
+        [maxSize]="service.maxSize"
+        class="pagination-rounded pagination-here"
+      >
+        <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+        <ng-template ngbPaginationEllipsis>...</ng-template>
+        <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+      </ngb-pagination>
+    </div>
+  </form>
+  </section>
+</div>

@@ -1,0 +1,406 @@
+<div class="loader-container" *ngIf="isfromLoaded">
+    <div class="mt-5"></div>
+    <div class="pt-5"></div>
+    <app-loader></app-loader>
+</div>
+<div class="content-wr" *ngIf="!isfromLoaded">
+    <form [formGroup]="productForm">
+        <h1 class="mb-4">Edit Product</h1>
+        <section class="edit-product form-field">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Name</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control" formControlName="productName">
+                            <div
+                                *ngIf="productForm.get('productName').touched && productForm.get('productName').errors">
+                                <p *ngIf="productForm.get('productName').errors.required" class="errMsg">*Please enter
+                                    name
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2"> Select Domain </label>
+                        <select class=" form-control form-select" formControlName="domain">
+                            <option class="valueNull" selected disabled value="">
+                                Select Domain
+                            </option>
+                            <option class="valueNull" value="">All</option>
+                            <option *ngFor="let domain of domains" [value]="domain.id">
+                                {{ domain.domainName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Select Manufacturer </label>
+                        <select class=" form-control form-select" formControlName="manufacturer">
+                            <option class="valueNull" selected disabled value="">
+                                Select Manufacturer
+                            </option>
+                            <option class="valueNull" value="">All</option>
+                            <option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.id">
+                                {{ manufacturer.manufacturerName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Select Category </label>
+                        <select class=" form-control form-select" formControlName="category">
+                            <option class="valueNull" selected disabled value="">
+                                Select Category
+                            </option>
+                            <option class="valueNull" value="">All</option>
+                            <option *ngFor="let category of categories" [value]="category.id">
+                                {{ category.categoryName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Is Popular</label>
+                        <select class="form-control form-select" formControlName="isPopular">
+                            <option class="valueNull" selected disabled value="">
+                                Select is Popular
+                            </option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Is Upcoming</label>
+                        <select class="form-control form-select" formControlName="isUpcoming">
+                            <option class="valueNull" selected disabled value="">
+                                Select is Upcoming
+                            </option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Launch Date</label>
+                        <input type="text" class="form-control" formControlName="productLaunchDate">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Expert Rating</label>
+                        <div class="position-relative">
+                            <div class="selecpicker">
+                                <select class="form-control form-select" formControlName="productExpertRating">
+                                    <option class="valueNull" selected disabled value="">
+                                        Select Rating
+                                    </option>
+                                    <option value="0.5">0.5</option>
+                                    <option value="1">1</option>
+                                    <option value="1.5">1.5</option>
+                                    <option value="2">2</option>
+                                    <option value="2.5">2.5</option>
+                                    <option value="3">3</option>
+                                    <option value="3.5">3.5</option>
+                                    <option value="4">4</option>
+                                    <option value="4.5">4.5</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Expert Review</label>
+                        <textarea formControlName="productExpertReview" class="form-control" rows="7"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Currency</label>
+                                <select class="form-control form-select" formControlName="currency">
+                                    <option class="valueNull" selected disabled value="">
+                                        Select Currency
+                                    </option>
+                                    <option value="INR">INR</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Price</label>
+                                <input type="text" class="form-control" formControlName="productPrice">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Tax Amount</label>
+                                <input type="text" class="form-control" formControlName="productTaxAmount">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Make </label>
+                                <input type="text" class="form-control" formControlName="productMake">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Model</label>
+                                <input type="text" class="form-control" formControlName="productModel">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Meta Title</label>
+                        <input type="text" class="form-control" formControlName="titleSEO">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Meta Keywords</label>
+                        <input type="text" class="form-control" formControlName="keywordSEO">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label mb-2">&nbsp;</label>
+                                <div class="d-flex align-items-center mas-var-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" class="d-none td-data-checkbox" id="ismaster"
+                                        formControlName="ismaster" />
+                                        <label for="ismaster" class="d-flex"><span
+                                                class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Master</label>
+                                    </div>
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" class="d-none td-data-checkbox" id="isvarient"
+                                        formControlName="isvarient" />
+                                        <label for="isvarient" class="d-flex"><span
+                                                class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Varient</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="product-id">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Discontinued Date</label>
+                        <input type="text" class="form-control" formControlName="productExpiryDate">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Short Description</label>
+                        <div class="position-relative">
+                            <textarea formControlName="productShortDescription" class="form-control" rows="7"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Meta Description</label>
+                        <textarea formControlName="descriptionSEO" class="form-control" rows="7"></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Upload Video (Only mp4) </label>
+                        <!--previous data start here-->
+                        <div class="previous-upload-data mb-4 align-items-center">
+                            <!--repeat div start here-->
+                            <div class="data-loop-div d-flex  align-items-center w-100">
+                                <div class="img-div mr-3">
+                                    <img src="images/video-thumb.webp" alt="">
+                                </div>
+                                <div class="w-100">
+                                    Loreum.mp4
+                                </div>
+                                <span class="del-icon"></span>
+                            </div>
+                            <!--repeat div end here-->
+                            <div class="data-loop-div d-flex  align-items-center w-100">
+                                <div class="img-div mr-3">
+                                    <img src="images/video-thumb.webp" alt="">
+                                </div>
+                                <div class="w-100">
+                                    Loreum.mp4
+                                </div>
+                                <span class="del-icon"></span>
+                            </div>
+                        </div>
+                        <!--previous data start here-->
+                        <div class="upload-video-div">
+                            <div class="upload-div-wr">
+                                <div class="upload-input">
+                                    <input type="file" accept="video/mp4,video/x-m4v,video/*" class="form-control"
+                                        placeholder="">
+                                </div>
+                                <div class="upload-action d-flex align-items-center justify-content-between">
+                                    <span class="plus-icon upload-video-btn"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Upload Image (only png, jpg, gif)</label>
+                        <!--previous data start here-->
+                        <div class="previous-upload-data mb-4 align-items-center">
+                            <!--repeat div start here-->
+                            <div class="data-loop-div d-flex  align-items-center w-100">
+                                <div class="img-div mr-3">
+                                    <img src="images/apple-iphone-5c-8gb.webp" alt="">
+                                </div>
+                                <div class="w-100">
+                                    Loreum.png
+                                    <p><b>Description: </b>Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lore</p>
+                                </div>
+                                <span class="del-icon"></span>
+                            </div>
+                            <!--repeat div end here-->
+                            <div class="data-loop-div d-flex  align-items-center w-100">
+                                <div class="img-div mr-3">
+                                    <img src="images/apple-iphone-5c-8gb.webp" alt="">
+                                </div>
+                                <div class="w-100">
+                                    Loreum.png
+                                    <p><b>Description: </b>Lorem Ipsum is simply dummy text of the printing and
+                                        typesetting industry. Lore</p>
+                                </div>
+                                <span class="del-icon"></span>
+                            </div>
+                        </div>
+                        <!--previous data start here-->
+                        <div class="upload-image-div">
+                            <div class="upload-div-wr">
+                                <div class="upload-input">
+                                    <input type="file" accept="image/png, image/gif, image/jpeg" class="form-control"
+                                        placeholder="">
+                                    <textarea name="" class="form-control mt-2" id="" cols="30" rows="10"></textarea>
+                                </div>
+                                <div class="upload-action d-flex align-items-center justify-content-between">
+                                    <span class="plus-icon upload-image-btn"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-label mb-2">Attribute Set</label>
+                        
+                        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                            <ngb-panel title="Key Specs">
+                                <ng-template ngbPanelContent>
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="form-label mb-2 pd-left">Battery </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Value Here" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="form-label mb-2 pd-left">Battery Life * </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Value Here" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel title="Multimedia">
+                                <ng-template ngbPanelContent>
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="form-label mb-2 pd-left">Loudspeaker </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Value Here" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="form-label mb-2 pd-left">Loudspeaker Size * </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Value Here" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="d-flex align-items-center">
+            <button type="button" (click)="!isEditBtnLoaded ? editProduct() : ''" class="btn-style d-flex justify-content-center align-items-center mr-2">
+                <app-loader *ngIf="isEditBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                <span *ngIf="!isEditBtnLoaded">SUBMIT</span>
+            </button>
+            <button type="button" (click)="cancleProduct()"
+                class="btn-style d-flex justify-content-center  btn-width align-items-center mx-2">CANCEL</button>
+        </div>
+    </form>
+</div>

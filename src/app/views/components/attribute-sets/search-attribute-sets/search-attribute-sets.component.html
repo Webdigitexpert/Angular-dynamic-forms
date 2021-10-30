@@ -1,0 +1,98 @@
+<div class="content-wr">
+  <h1 class="mb-4">Attribute Set</h1>
+  <div class="search-form form-field">
+    <div class="search-field">
+      <div class="field-div">
+        <input type="text" trims class="form-control" placeholder="Name" [(ngModel)]="searchKey" (keyup)="getData($event)" />
+        
+      </div>
+      <div class="field-div">
+        <div class="field-div">      
+          <app-select-categories (SelectedValue)="getselectedCategory($event)" ></app-select-categories>
+      </div>
+      </div>
+    </div>
+    <div class="search-add-wr">
+      <button type="submit"  class="btn-style btn-block mr-2" (click)="attributeSetSearch()">Search</button>
+      <button
+        type="button"
+        class="btn-style btn-block m-0"
+        (click)="opendialog($event)"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <section class="list-section mt-5">
+    <div class="loader-container" *ngIf="isLoadedTable">
+        <app-loader></app-loader>
+    </div>
+  <form *ngIf="!isLoadedTable">
+    <table class="table table-bordered attributeSetTable">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col"  (click)="sort('name')">
+            <i *ngIf="sortDirection=='asc'" class="fa fa-arrow-up" aria-hidden="true"></i>
+            <i *ngIf="sortDirection=='desc'" class="fa fa-arrow-down" aria-hidden="true"></i>
+            Name
+          </th>
+          <th scope="col">Category</th>
+          <th scope="col">Domain</th>
+          <th scope="col">Status</th>
+          <th
+            width="120"
+            scope="col"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attributeSet of attributeSetList ">
+          <td>
+            <a routerLink="/attributeSets/detail" [state]="{ data:attributeSet}" class="links">{{ attributeSet.attributeSetName }}</a>
+          </td>
+          <td>
+            <p *ngIf="!attributeSet.categoryName">-</p>
+            <p *ngIf="attributeSet.categoryName">{{attributeSet.categoryName}}</p>
+          </td>
+          <td>
+            <!-- <span *ngFor="let item of domainList | filter:attributeSet.domainMaster : 'id' : 'slectionFilter'">{{item.domainName}}</span> -->
+            <p *ngIf="attributeSet.domainMasterName">{{attributeSet.domainMasterName}}</p>
+            <p *ngIf="!attributeSet.domainMasterName">-</p>
+          </td>
+          <td>
+            <p *ngIf="attributeSet.active">Active</p>
+            <p *ngIf="!attributeSet.active">In-active</p>
+          </td>
+          <td  width="120">
+            <div class="d-flex">
+              <span *ngIf="attributeSet.active" class="edit-icon mr-3" title="Edit" (click)="editAttributeSet(attributeSet)"></span>
+              <span *ngIf="!attributeSet.active" class="edit-icon mr-3" style="opacity: 0.2;" title="disabled"></span>
+              <span *ngIf="!attributeSet.active" class="markdone-icon" title="Active" (click)="changeStatusAttributeSet(attributeSet)"></span>
+              <span *ngIf="attributeSet.active" class="close-bg" title="Deactive"><span class="markundone-icon" (click)="changeStatusAttributeSet(attributeSet)"></span>
+            </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="isPagination" class="d-flex justify-content-center p-2 align-center">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="service.page"
+        
+        (pageChange)="refreshAttributeSets()"
+        [maxSize]="service.maxSize"
+        class="pagination-rounded pagination-here"
+      >
+        <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+        <ng-template ngbPaginationEllipsis>...</ng-template>
+        <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+      </ngb-pagination>
+    </div>
+  </form>
+  </section>
+</div>

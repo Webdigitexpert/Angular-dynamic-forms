@@ -1,0 +1,16 @@
+<form [formGroup]="dropDownForm">
+<ng-select 
+[items]="inputdata.data"
+[bindLabel]="inputdata.bindName"
+[bindValue]="inputdata.bindvalue"
+[multiple]="true"
+placeholder="Select any"
+formControlName="multiDropdown"
+(change)="getmultipleDropdown()"
+>
+</ng-select>
+
+</form>
+
+<!-- {{inputdata|json}} -->
+

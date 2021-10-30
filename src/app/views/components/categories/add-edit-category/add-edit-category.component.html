@@ -1,0 +1,727 @@
+<div *ngIf="type == 'add'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="categoryForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2"
+                  >Image (only png, jpg, gif)</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  (change)="onFileSelect($event)"
+                  accept="image/png, image/gif, image/jpeg"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <!-- <div *ngIf="categoryForm.get('categoryImage').touched && categoryForm.get('categoryImage').errors" >
+                            <p *ngIf="categoryForm.get('categoryImage').errors.required" class="errMsg">*Image required</p>
+                        </div> -->
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Name</label>
+                <input
+                  trims
+                  type="text"
+                  formControlName="categoryName"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('categoryName').touched &&
+                categoryForm.get('categoryName').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('categoryName').errors.required"
+                class="errMsg"
+              >
+                *Name is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Description</label>
+                <textarea
+                trims
+                  name=""
+                  id=""
+                  formControlName="categoryDescription"
+                  class="form-control"
+                  cols="30"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('categoryDescription').touched &&
+                categoryForm.get('categoryDescription').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('categoryDescription').errors.required"
+                class="errMsg"
+              >
+                *Description is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Meta Title</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="metaTitle"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('metaTitle').touched &&
+                categoryForm.get('metaTitle').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('metaTitle').errors.required"
+                class="errMsg"
+              >
+                *Meta title is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Meta Description</label>
+                <textarea
+                trims
+                  name=""
+                  id=""
+                  formControlName="metaDescription"
+                  class="form-control"
+                  cols="30"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('metaDescription').touched &&
+                categoryForm.get('metaDescription').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('metaDescription').errors.required"
+                class="errMsg"
+              >
+                *Meta discription is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Parent Category</label>
+                <select
+                  formControlName="parentCategory"
+                  class="form-select form-control form-field"
+                  aria-label="Default select example"
+                >
+                  <option
+                    class="valueNull"
+                    selected
+                    disabled
+                    [value]="nullvalue"
+                  >
+                    ---Select Parent Category---
+                  </option>
+                  <!-- <option class="valueNull" [value]="nullvalue" >None</option> -->
+                  <option
+                    *ngFor="let parentCategory1 of parentCategories"
+                    [value]="parentCategory1.id"
+                  >
+                    {{ parentCategory1.categoryName }}
+                  </option>
+                </select>
+              </div>
+              <div
+                *ngIf="
+                  categoryForm.get('parentCategory').touched &&
+                  categoryForm.get('parentCategory').errors
+                "
+              >
+                <p
+                  *ngIf="categoryForm.get('parentCategory').errors.required"
+                  class="errMsg"
+                >
+                  *Select any parent category
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Domain</label>
+                <select
+                  formControlName="domainId"
+                  class="form-select form-control form-field"
+                  aria-label="Default select example"
+                >
+                  <option
+                    class="valueNull"
+                    selected
+                    disabled
+                    [value]="nullvalue"
+                  >
+                    ---Select Domain---
+                  </option>
+                  <option *ngFor="let domain of domains" [value]="domain.id">
+                    {{ domain.domainName }}
+                  </option>
+                </select>
+              </div>
+              <div
+                *ngIf="
+                  categoryForm.get('domainId').touched &&
+                  categoryForm.get('domainId').errors
+                "
+              >
+                <p
+                  *ngIf="categoryForm.get('domainId').errors.required"
+                  class="errMsg"
+                >
+                  *Select any domain
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              (click)="createCategory()"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+            >
+            <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+            <span *ngIf="!isAddBtnLoaded">ADD</span>
+            </button>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="btn-style d-flex justify-content-center align-items-center"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type == 'edit'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="categoryForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2" *ngIf="!hidelogo && editLogo">Logo</label>
+
+                <div *ngIf="!hidelogo">
+                  <img
+                    *ngIf="editLogo"
+                    class="border rounded my-2"
+                    height="40px"
+                    src="{{ editLogo }}"
+                    alt=""
+                  />
+                </div>
+                <label class="form-label mb-2"
+                  >Image (only png, jpg, gif)</label
+                >
+                <input
+                  class="form-control"
+                  type="file"
+                  (change)="onFileSelect($event)"
+                  accept="image/png, image/gif, image/jpeg"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <!-- formControlName="categoryImage" <div *ngIf="categoryForm.get('categoryImage').touched && categoryForm.get('categoryImage').errors" >
+                        <p *ngIf="categoryForm.get('categoryImage').errors.required" class="errMsg">*Image required</p>
+                    </div> -->
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Name</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="categoryName"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('categoryName').touched &&
+                categoryForm.get('categoryName').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('categoryName').errors.required"
+                class="errMsg"
+              >
+                *Name is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Description</label>
+                <textarea
+                trims
+                  name=""
+                  id=""
+                  formControlName="categoryDescription"
+                  class="form-control"
+                  cols="30"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('categoryDescription').touched &&
+                categoryForm.get('categoryDescription').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('categoryDescription').errors.required"
+                class="errMsg"
+              >
+                *Description is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Meta Title</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="metaTitle"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('metaTitle').touched &&
+                categoryForm.get('metaTitle').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('metaTitle').errors.required"
+                class="errMsg"
+              >
+                *Meta title is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Meta Description</label>
+                <textarea
+                trims
+                  name=""
+                  id=""
+                  formControlName="metaDescription"
+                  class="form-control"
+                  cols="30"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                categoryForm.get('metaDescription').touched &&
+                categoryForm.get('metaDescription').errors
+              "
+            >
+              <p
+                *ngIf="categoryForm.get('metaDescription').errors.required"
+                class="errMsg"
+              >
+                *Meta discription is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Parent Category</label>
+                <select
+                  formControlName="parentCategory"
+                  class="form-select form-control form-field"
+                  aria-label="Default select example"
+                >
+                  <option
+                    class="valueNull"
+                    selected
+                    disabled
+                    [value]="nullvalue"
+                  >
+                    ---Select Parent category---
+                  </option>
+
+                  <!-- <option class="valueNull" [value]="nullvalue">None</option> -->
+                  <option
+                    *ngFor="let parentCategory1 of parentCategories"
+                    [value]="parentCategory1.id"
+                  >
+                    {{ parentCategory1.categoryName }}
+                  </option>
+                </select>
+              </div>
+              <div
+                *ngIf="
+                  categoryForm.get('parentCategory').touched &&
+                  categoryForm.get('parentCategory').errors
+                "
+              >
+                <p
+                  *ngIf="categoryForm.get('parentCategory').errors.required"
+                  class="errMsg"
+                >
+                  *Select any parent category
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Domain</label>
+                <select
+                  formControlName="domainId"
+                  class="form-select form-control form-field"
+                  aria-label="Default select example"
+                >
+                  <option class="valueNull" selected disabled [value]="null">
+                    ---Select Domain---
+                  </option>
+                  <option *ngFor="let domain of domains" [value]="domain.id">
+                    {{ domain.domainName }}
+                  </option>
+                </select>
+              </div>
+              <div
+                *ngIf="
+                  categoryForm.get('domainId').touched &&
+                  categoryForm.get('domainId').errors
+                "
+              >
+                <p
+                  *ngIf="categoryForm.get('domainId').errors.required"
+                  class="errMsg"
+                >
+                  *Select any domain
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              (click)="editCategory()"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+            >
+            <app-loader *ngIf="isEditBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+            <span *ngIf="!isEditBtnLoaded">SAVE</span>
+            </button>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="btn-style d-flex justify-content-center align-items-center"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type == 'productreview'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="productReviewForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Param1</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="param1"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                productReviewForm.get('param1').touched &&
+                productReviewForm.get('param1').errors
+              "
+            >
+              <p
+                *ngIf="productReviewForm.get('param1').errors.required"
+                class="errMsg"
+              >
+                *param1 is required
+              </p>
+              <p *ngIf="productReviewForm.get('param1').errors?.maxlength" class="errMsg">
+                param1 should not exceed 100
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Param2</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="param2"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                productReviewForm.get('param2').touched &&
+                productReviewForm.get('param2').errors
+              "
+            >
+              <p
+                *ngIf="productReviewForm.get('param2').errors.required"
+                class="errMsg"
+              >
+                *param2 is required
+              </p>
+              <p *ngIf="productReviewForm.get('param2').errors?.maxlength" class="errMsg">
+                param2 should not exceed 100
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Param3</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="param3"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                productReviewForm.get('param3').touched &&
+                productReviewForm.get('param3').errors
+              "
+            >
+              <p
+                *ngIf="productReviewForm.get('param3').errors.required"
+                class="errMsg"
+              >
+                *param3 is required
+              </p>
+              <p *ngIf="productReviewForm.get('param3').errors?.maxlength" class="errMsg">
+                param3 should not exceed 100
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Param4</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="param4"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                productReviewForm.get('param4').touched &&
+                productReviewForm.get('param4').errors
+              "
+            >
+              <p
+                *ngIf="productReviewForm.get('param4').errors.required"
+                class="errMsg"
+              >
+                *param4 is required
+              </p>
+              <p *ngIf="productReviewForm.get('param4').errors?.maxlength" class="errMsg">
+                param4 should not exceed 100
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Param5</label>
+                <input
+                trims
+                  type="text"
+                  formControlName="param5"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                productReviewForm.get('param5').touched &&
+                productReviewForm.get('param5').errors
+              "
+            >
+              <p
+                *ngIf="productReviewForm.get('param5').errors.required"
+                class="errMsg"
+              >
+                *param5 is required
+              </p>
+              <p *ngIf="productReviewForm.get('param5').errors?.maxlength" class="errMsg">
+                param5 should not exceed 100
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              (click)="createSettings()"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+            >
+            <app-loader *ngIf="isReviewSettings" loaderSize="small" loaderColor="light"></app-loader>
+            <span *ngIf="!isReviewSettings">SAVE</span>
+            </button>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="btn-style d-flex justify-content-center align-items-center"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

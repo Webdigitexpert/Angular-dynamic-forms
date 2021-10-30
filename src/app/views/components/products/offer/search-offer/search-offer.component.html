@@ -1,0 +1,80 @@
+<div class="content-wr">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Offer</h1>
+        <div>
+            <button type="button" class="btn-style btn-width m-0">Upload</button>
+            <button type="button" class="btn-style btn-width m-0">Download Format</button>
+        </div>
+    </div>
+    <div class="search-form form-field">
+        <div class="search-field">
+            <div class="field-div">
+                <input type="text" class="form-control" placeholder="Product ID">
+            </div>
+            <div class="field-div">
+                <select class="selectpicker form-control form-select" title="Select Location" data-style="btn-info" id="Location"
+                    name="Location">
+                    <option value="" disabled selected hidden>Select a Location</option>
+                    <option value="Electronic">A</option>
+                    <option value="Car"> B</option>
+                    <option value="Bike">C</option>
+                </select>
+            </div>
+            <div class="field-div">
+                <select class="selectpicker form-control form-select" title="Select Manufacturer" data-style="btn-info" id="Manufacturer"
+                    name="Manufacturer">
+                    <option value="" disabled selected class="valueNull">Select a Manufacturer</option>
+                    <option value="manufacturer.id" *ngFor="let manufacturer of manufacturer">{{manufacturer.manufacturerName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="search-add-wr">
+            <button type="submit" class="btn-style btn-block mr-2">Search</button>
+            <button type="button" class="btn-style btn-block m-0" (click)="addOffer()">Add</button>
+        </div>
+    </div>
+    <section class="list-section mt-5">
+        <form>
+            <table class="table table-bordered offerTable">
+                <thead class="thead-light">
+                <tr>
+                    <!-- <th scope="col"  sortable="sno" (click)="sort('productId')" width="70">Sno.</th> -->
+                    <th scope="col" >Product Id</th>
+                    <th scope="col" >Start Date</th>
+                    <th scope="col" >End Date</th>
+                    <th scope="col" >City</th>
+                    <th scope="col" >Offer Detail</th>
+                    <th scope="col" width="120">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let offer of offers">
+                    <!-- <td scope="row" sortable="sno" class="align-middle text-center">{{offer.sno}}</td> -->
+                    <td>{{offer.productId}}</td>
+                    <td>{{offer.startDate}}</td>
+                    <td>{{offer.endDate}}</td>
+                    <td>{{offer.cityName}}</td>
+                    <td>{{offer.offerDetail}}</td>
+                    <td class="align-middle">
+                        <div class="d-flex">
+                            <span class="edit-icon mr-3" title="Edit" (click)="editOffer(offer)"></span>
+                            <span class="del-icon" title="Delete" (click)="deleteOffer(offer)"></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center p-2 align-center">
+            <ngb-pagination
+              [collectionSize]="collectionSize"
+              [(page)]="service.page"
+              [pageSize]="service.pageSize"
+              (pageChange)="refreshOffers()"
+            >
+            </ngb-pagination>
+          </div>
+    </form>
+    </section>
+</div>
+

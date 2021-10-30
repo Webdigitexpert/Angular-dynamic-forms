@@ -1,0 +1,7 @@
+<div class="wrapper">
+  <div class="container-fluid p-0">
+      <app-header *ngIf="!isLogin"></app-header>
+      <app-sidebar *ngIf="!isLogin"></app-sidebar>
+      <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,330 @@
+<div *ngIf="type == 'add'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="cityForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">City name</label>
+                <input
+                  trims
+                  [formControl]="cityForm.get('city')"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                cityForm.get('city').touched && cityForm.get('city').errors
+              "
+            >
+              <p *ngIf="cityForm.get('city').errors.required" class="errMsg">
+                *City name is required
+              </p>
+              <p *ngIf="cityForm.get('city').errors?.maxlength" class="errMsg">
+                *City name is exceeding max characters
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Alias city name</label>
+                <input
+                  trims
+                  [formControl]="cityForm.get('aliasName')"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                cityForm.get('aliasName').touched &&
+                cityForm.get('aliasName').errors
+              "
+            >
+              <p
+                *ngIf="cityForm.get('aliasName').errors.required"
+                class="errMsg"
+              >
+                *Alias name is required
+              </p>
+              <p
+                *ngIf="cityForm.get('aliasName').errors?.maxlength"
+                class="errMsg"
+              >
+                *Alias name is exceeding max characters
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select State</label>
+                <select
+                  [formControl]="controls.stateId"
+                  class="form-select form-control form-field"
+                  aria-label="Default select example"
+                  [ngClass]="{
+                    'is-invalid': submitted && cityForm.get('state').errors
+                  }"
+                >
+                  <option class="valueNull" selected disabled value="">
+                    ----Select State-----
+                  </option>
+                  <option
+                    *ngFor="let state of allStates"
+                    [value]="state.stateId"
+                  >
+                    {{ state.stateName }}
+                  </option>
+                </select>
+              </div>
+              <div *ngIf="controls.stateId.touched && controls.stateId.errors">
+                <p *ngIf="controls.stateId.errors.required" class="errMsg">
+                  *Select any option
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Pin Codes</label>
+                <input
+                  trim
+                  [formControl]="cityForm.get('pincode')"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                cityForm.get('pincode').touched &&
+                cityForm.get('pincode').errors
+              "
+            >
+              <p *ngIf="cityForm.get('pincode').errors.required" class="errMsg">
+                *Pincode is required
+              </p>
+            </div>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+              (click)="createCity()"
+            >
+              <app-loader
+                *ngIf="isAddBtnLoaded"
+                loaderSize="small"
+                loaderColor="light"
+              ></app-loader>
+              <span *ngIf="!isAddBtnLoaded">ADD</span>
+            </button>
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn-style d-flex justify-content-center align-items-center"
+              (click)="closeModal()"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type == 'edit'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="cityForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">City name</label>
+                <input
+                  trims
+                  [formControl]="controls.city"
+                  type="text"
+                  value="data.name"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                cityForm.get('city').touched && cityForm.get('city').errors
+              "
+            >
+              <p *ngIf="cityForm.get('city').errors.required" class="errMsg">
+                *City name is required
+              </p>
+              <p *ngIf="cityForm.get('city').errors?.maxlength" class="errMsg">
+                *City name is exceeding max characters
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Alias city name</label>
+                <input
+                  trims
+                  [formControl]="cityForm.get('aliasName')"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                cityForm.get('aliasName').touched &&
+                cityForm.get('aliasName').errors
+              "
+            >
+              <p
+                *ngIf="cityForm.get('aliasName').errors.required"
+                class="errMsg"
+              >
+                *Alias name is required
+              </p>
+              <p
+                *ngIf="cityForm.get('aliasName').errors?.maxlength"
+                class="errMsg"
+              >
+                *Alias name is exceeding max characters
+              </p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select State</label>
+                <select
+                  [formControl]="controls.stateId"
+                  class="form-select form-control form-field"
+                  aria-label="Default select example"
+                  [ngClass]="{
+                    'is-invalid': submitted && cityForm.get('state').errors
+                  }"
+                >
+                  <option class="valueNull" selected disabled value="">
+                    ----Select State-----
+                  </option>
+                  <option
+                    *ngFor="let state of allStates"
+                    [value]="state.stateId"
+                  >
+                    {{ state.stateName }}
+                  </option>
+                </select>
+              </div>
+              <div *ngIf="controls.stateId.touched && controls.stateId.errors">
+                <p *ngIf="controls.stateId.errors.required" class="errMsg">
+                  *Select any option
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Pin Codes</label>
+                <input
+                  trim
+                  [formControl]="cityForm.get('pincode')"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                cityForm.get('pincode').touched &&
+                cityForm.get('pincode').errors
+              "
+            >
+              <p *ngIf="cityForm.get('pincode').errors.required" class="errMsg">
+                *Pincodes is required
+              </p>
+            </div>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+              (click)="editCity()"
+            >
+              <app-loader
+                *ngIf="isEditBtnLoaded"
+                loaderSize="small"
+                loaderColor="light"
+              ></app-loader>
+              <span *ngIf="!isEditBtnLoaded">SAVE</span>
+            </button>
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn-style d-flex justify-content-center align-items-center"
+              (click)="closeModal()"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

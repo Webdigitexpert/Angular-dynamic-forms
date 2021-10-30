@@ -1,0 +1,133 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="offerForm">
+            <div class="form-field">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">ProductId</label>
+                        <input [formControl]="controls.productId" type="text"  class="form-control">
+                    </div>
+                    <div *ngIf="offerForm.get('productId').touched && offerForm.get('productId').errors" >
+                        <p *ngIf="offerForm.get('productId').errors.required" class="errMsgField">*Product id is required</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">Start Date</label>
+                        <input type="text" class="form-control" formControlName="startDate" [bsConfig]="{containerClass:'theme-blue'}" bsDatepicker>
+                        <!-- <input [formControl]="controls.startDate" type="text"  class="form-control"> -->
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">End Date</label>
+                        <input type="text" class="form-control" formControlName="endDate" [bsConfig]="{containerClass:'theme-blue'}" bsDatepicker>
+                        <!-- <input [formControl]="controls.endDate" type="text"  class="form-control"> -->
+                    </div>
+                  </div>
+                <div class="form-row">
+                    <div class="col">
+                         <div class="form-group">
+                            <label class="form-label mb-2">Select City</label>
+                            <select [formControl]="controls.cityId" class="form-select form-control form-field" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && offerForm.get('city').errors }">
+                                <option disabled class="valueNull" value="">Select city</option>
+                                <option *ngFor="let city of cities" [value]="city.cityId">{{city.cityName}}</option>
+                              </select>
+                        </div>
+                        <div *ngIf="controls.cityId.touched && controls.cityId.errors" >
+                            <p *ngIf="controls.cityId.errors.required" class="errMsg">*Select any option</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">Offer Detail</label>
+                        <input [formControl]="controls.offerDetail" type="text"  class="form-control">
+                    </div>
+                  </div>
+                <!-- <div class="d-flex align-items-center justify-content-start footers-btn mt-4 col-md-12">
+                    <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2" (click)="createOffer()" >ADD</button>
+                    <button type="button" data-dismiss="modal" class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">CANCEL</button>
+                </div> -->
+
+                <div class="d-flex align-items-center justify-content-start footers-btn">
+
+                    <button type="button" (click)="!isAddBtnLoaded ? createOffer() : ''" class="btn-style d-flex justify-content-center align-items-center mr-2">
+                        <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                        <span *ngIf="!isAddBtnLoaded">ADD</span>
+                    </button>
+
+                    <button type="button" (click)="closeModal()" class="btn-style d-flex justify-content-center align-items-center">CANCEL</button>
+                </div>
+
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="offerForm">
+                <div class="form-field">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">ProductId</label>
+                            <input [formControl]="controls.productId" type="text" value="data.productId" class="form-control">
+                        </div>
+                        <div *ngIf="offerForm.get('productId').touched && offerForm.get('productId').errors" >
+                            <p *ngIf="offerForm.get('productId').errors.required" class="errMsgField">*Product id is required</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">Start Date</label>
+                            <input [formControl]="controls.startDate" type="text" value="data.startDate" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">End Date</label>
+                            <input [formControl]="controls.endDate" type="text" value="data.endDate"  class="form-control">
+                        </div>
+                      </div>
+                    <div class="form-row">
+                        <div class="col">
+                             <div class="form-group">
+                                <label class="form-label mb-2">Select City</label>
+                                <select [formControl]="controls.cityId" class="form-select form-control form-field" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && offerForm.get('city').errors }">
+                                    <option value="Active">Noida</option>
+                                    <option value="InActive">Delhi</option>
+                                  </select>
+                            </div>
+                            <div *ngIf="controls.cityId.touched && controls.cityId.errors" >
+                                <p *ngIf="controls.cityId.errors.required" class="errMsg">*Select any option</p>
+                            </div>
+    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">Offer Detail</label>
+                            <input [formControl]="controls.offerDetail" type="text" value="data.offerDetail" class="form-control">
+                        </div>
+                      </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn mt-4 col-md-12">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2" (click)="editOffer()" >EDIT</button>
+                        <button type="button" data-dismiss="modal" class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+
+

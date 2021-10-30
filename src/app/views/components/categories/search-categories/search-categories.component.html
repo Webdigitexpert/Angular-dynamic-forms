@@ -1,0 +1,168 @@
+<div class="content-wr">
+  <h1 class="mb-4">Categories</h1>
+  <div class="search-form form-field">
+    <div class="search-field">
+      <div class="field-div">
+        <input
+          trims
+          type="text"
+          class="form-control"
+          placeholder="Name"
+          [(ngModel)]="searchNamefilter"
+        />
+      </div>
+      <div class="field-div">
+       
+
+        <!-- <app-multiselectdropdown (multiSelectedData)="getdrodownData($event)" [inputdata]="multiselectCategory"></app-multiselectdropdown> -->
+        
+        <app-select-categories (SelectedValue)="getselectedCategory($event)" ></app-select-categories>
+      </div>
+      <div class="field-div">
+        <select
+          [(ngModel)]="domainFilter"
+          class="selectpicker form-control form-select"
+          title="Select Domain"
+          data-style="btn-info"
+          id="Domain"
+          name="Domain"
+        >
+          <option class="valueNull" selected disabled value="">
+            ---Select Domain---
+          </option>
+          <option class="valueNull" value="">All</option>
+          <option *ngFor="let domain of domains" [value]="domain.id">
+            {{ domain.domainName }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="search-add-wr">
+      <button
+        type="submit"
+        class="btn-style btn-block mr-2"
+        (click)="searchCategory()"
+      >
+        Search
+      </button>
+      <button
+        type="button"
+        class="btn-style btn-block m-0"
+        (click)="addCategory($event)"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <section class="list-section mt-5">
+      <div class="loader-container" *ngIf="isLoadedTable">
+          <app-loader></app-loader>
+      </div>
+
+    <form *ngIf="!isLoadedTable">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            
+            <th scope="col">Image</th>
+            <th scope="col" (click)="sort('categoryName')">
+              <i
+                *ngIf="sortOrder == 'asc'"
+                class="fa fa-arrow-up"
+                aria-hidden="true"
+              ></i>
+              <i
+                *ngIf="sortOrder == 'desc'"
+                class="fa fa-arrow-down"
+                aria-hidden="true"
+              ></i>
+              Name
+            </th>
+            <th scope="col">Description</th>
+            <th scope="col" class="text-nowrap">Parent Category</th>
+            <th scope="col">Domain</th>
+            <th scope="col" width="120">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categoryList">
+            
+            <th class="text-center" >
+             <p *ngIf="category.categoryImage"> <img 
+                src="{{ category.categoryImage.url }}"
+                height="60"
+                alt="{{ category.categoryImage.alternateText }}"
+              />
+            </p>
+            
+              <p *ngIf="!category.categoryImage">-</p>
+            </th>
+            
+            <th class="align-middle">{{ category.categoryName }}</th>
+            <td class="align-middle">
+              <p *ngIf="category.categoryDescription"></p>{{ category.categoryDescription }}
+              <p *ngIf="!category.categoryDescription">-</p>
+            </td>
+            <th class="align-middle">
+            <p *ngIf="category.parentCategoryName">  {{ category.parentCategoryName }}</p>
+            <p *ngIf="!category.parentCategoryName"> -</p>
+            </th>
+            <th class="align-middle">
+              <p *ngIf="category.domainName">{{ category.domainName }}</p>
+              <p *ngIf="!category.domainName">-</p>
+            </th>
+            <td class="align-middle">
+              <div class="d-flex">
+                <button
+                  class="btn btn-default"
+                  [disabled]="!category.active"
+                  (click)="editCategory(category)"
+                >
+                  <span class="edit-icon mr-3" title="Edit"></span>
+                </button>
+                <span
+                  (click)="activateDeactivate(category)"
+                  *ngIf="!category.active"
+                  class="markdone-icon mr-3"
+                  title="Active"
+                ></span>
+
+                <span
+                  *ngIf="category.active"
+                  (click)="activateDeactivate(category)"
+                  class="close-bg mr-3"
+                  title="Deactive"
+                  ><span class="markundone-icon" title="Deactivate"></span>
+                </span>
+
+
+                <button class="btn btn-default" [disabled]="!category.active">
+                  <span
+                    class="setting-icon"
+                    title="Add Review"
+                    (click)="productReview(category)"
+                  ></span>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-center p-2 align-center">
+        <ngb-pagination
+          [collectionSize]="collectionSize"
+          [(page)]="service.page"
+          (pageChange)="refreshCategories()"
+          class="pagination-rounded pagination-here"
+        >
+          <ng-template ngbPaginationPrevious>Prev</ng-template>
+          <ng-template ngbPaginationNext>Next</ng-template>
+          <ng-template ngbPaginationEllipsis>...</ng-template>
+          <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+        </ngb-pagination>
+      </div>
+    </form>
+  </section>
+</div>

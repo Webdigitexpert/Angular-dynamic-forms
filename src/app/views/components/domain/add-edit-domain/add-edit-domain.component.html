@@ -1,0 +1,98 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="domainForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Domain Name</label>
+                                <input trims [formControl]="domainForm.get('domainName')" type="text"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div *ngIf="controls.domainName.touched && domainForm.get('domainName').errors">
+                            <p *ngIf="domainForm.get('domainName').errors.required" class="errMsg">*Domain is required
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Domain Url</label>
+                                <input trim [formControl]="controls.domainUrl" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div *ngIf="controls.domainUrl.touched && controls.domainUrl.errors">
+                            <p *ngIf="controls.domainUrl.errors.required" class="errMsg">*Url is required</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2"
+                            (click)="createDomain()">
+                            <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                            <span *ngIf="!isAddBtnLoaded">ADD</span>
+                        </button>
+                        <button type="button" data-dismiss="modal"
+                            class="btn-style d-flex justify-content-center align-items-center"
+                            (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="domainForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Domain Name</label>
+                                <input trims [formControl]="domainForm.get('domainName')" type="text"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div *ngIf="controls.domainName.touched && domainForm.get('domainName').errors">
+                            <p *ngIf="domainForm.get('domainName').errors.required" class="errMsg">*Domain is required
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Domain Url</label>
+                                <input trim [formControl]="controls.domainUrl" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div *ngIf="controls.domainUrl.touched && controls.domainUrl.errors">
+                            <p *ngIf="controls.domainUrl.errors.required" class="errMsg">*Url is required</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2"
+                            (click)="editDomain()">
+                            <app-loader *ngIf="isEditBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                            <span *ngIf="!isEditBtnLoaded">SAVE</span>
+                        </button>
+                        <button type="button" data-dismiss="modal"
+                            class="btn-style d-flex justify-content-center align-items-center"
+                            (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

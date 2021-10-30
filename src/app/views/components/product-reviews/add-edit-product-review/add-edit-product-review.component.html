@@ -1,0 +1,301 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="reviewForm">
+            <div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Product</label>
+                           <select class="form-control" formControlName="productId">
+                               <option selected disabled class="valueNull" value="">Select product</option>
+                               <option *ngFor="let product of products" [value]="product.productId">{{product.productName}}</option>
+                           </select>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('productId').touched && reviewForm.get('productId').errors" >
+                        <p *ngIf="reviewForm.get('productId').errors.required" class="errMsg">*Review is required</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Status</label>
+                            <select class="selectpicker form-select form-control" formControlName="status" title="Select Status" data-style="btn-info" id="expertrating"
+                            name="expertrating">
+                            <option class="valueNull" selected value="">Select Status</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Declined">Declined</option>
+                            <option value="Awaiting Approval">Awaiting Approval</option>
+                          
+                        </select>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('status').touched && reviewForm.get('status').errors" >
+                        <p *ngIf="reviewForm.get('status').errors.required" class="errMsg">*Status is required</p>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Reviews</label>
+                            <textarea  formControlName="reviewText" class="form-control" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('reviewText').touched && reviewForm.get('reviewText').errors" >
+                        <p *ngIf="reviewForm.get('reviewText').errors.required" class="errMsg">*Review is required</p>
+                    </div>
+                </div>
+
+
+               
+
+
+
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Ratings</label>
+                            <select class="selectpicker form-select form-control" formControlName="reviewRating" title="Select Rating" data-style="btn-info" id="expertrating"
+                            name="expertrating">
+                            <option class="valueNull" selected value="">Select Rating</option>
+                            <option value="0.5">0.5</option>
+                            <option value="1">1</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('reviewRating').touched && reviewForm.get('reviewRating').errors" >
+                        <p *ngIf="reviewForm.get('reviewRating').errors.required" class="errMsg">*Rating is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Make</label>
+                            <input type="text" formControlName="make" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('make').touched && reviewForm.get('make').errors" >
+                        <p *ngIf="reviewForm.get('make').errors.required" class="errMsg">*Make is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Model</label>
+                            <input type="text" formControlName="model" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('model').touched && reviewForm.get('model').errors" >
+                        <p *ngIf="reviewForm.get('model').errors.required" class="errMsg">*Model is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Tags</label>
+                            <tag-input formControlName="tags" class="form-control"></tag-input>
+                            <!-- <input type="text" formControlName="tags" class="form-control" placeholder=""> -->
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('tags').touched && reviewForm.get('tags').errors" >
+                        <p *ngIf="reviewForm.get('tags').errors.required" class="errMsg">*Tags are required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Author</label>
+                            <input type="text" formControlName="reviewBy" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('reviewBy').touched && reviewForm.get('reviewBy').errors" >
+                        <p *ngIf="reviewForm.get('reviewBy').errors.required" class="errMsg">*Author is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class=" form-group">
+                            <label class="form-label mb-2">Date</label>
+                            <input type="text" class="form-control" formControlName="createdDate" [bsConfig]="{containerClass:'theme-blue'}" bsDatepicker>
+                            <!-- <input type="date" formControlName="createdDate" class="form-control" placeholder=""> -->
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('createdDate').touched && reviewForm.get('createdDate').errors" >
+                        <p *ngIf="reviewForm.get('createdDate').errors.required" class="errMsg">*Date is required</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-start footers-btn">
+
+                    <button type="button" (click)="!isAddBtnLoaded ? createReview() : ''" class="btn-style d-flex justify-content-center align-items-center mr-2">
+                        <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                        <span *ngIf="!isAddBtnLoaded">ADD</span>
+                    </button>
+
+                    <button type="button" (click)="closeModal()" class="btn-style d-flex justify-content-center align-items-center">CANCEL</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="reviewForm">
+            <div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Status</label>
+                            <select class="selectpicker form-select form-control" formControlName="status" title="Select Status" data-style="btn-info" id="expertrating"
+                            name="expertrating">
+                            <option class="valueNull" selected value="">Select Status</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Declined">Declined</option>
+                            <option value="Awaiting Approval">Awaiting Approval</option>
+                          
+                        </select>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('status').touched && reviewForm.get('status').errors" >
+                        <p *ngIf="reviewForm.get('status').errors.required" class="errMsg">*Status is required</p>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Review</label>
+                            <textarea  formControlName="reviewText" class="form-control" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('reviewText').touched && reviewForm.get('reviewText').errors" >
+                        <p *ngIf="reviewForm.get('reviewText').errors.required" class="errMsg">*Review is required</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Ratings</label>
+                            <select class="selectpicker form-select form-control" formControlName="reviewRating" title="Select Rating" data-style="btn-info" id="expertrating"
+                            name="expertrating">
+                            <option class="valueNull" selected value="">Select Rating</option>
+                            <option value="0.5">0.5</option>
+                            <option value="1">1</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('reviewRating').touched && reviewForm.get('reviewRating').errors" >
+                        <p *ngIf="reviewForm.get('reviewRating').errors.required" class="errMsg">*Rating is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Make</label>
+                            <input type="text" formControlName="make" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('make').touched && reviewForm.get('make').errors" >
+                        <p *ngIf="reviewForm.get('make').errors.required" class="errMsg">*Make is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Model</label>
+                            <input type="text" formControlName="model" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('model').touched && reviewForm.get('model').errors" >
+                        <p *ngIf="reviewForm.get('model').errors.required" class="errMsg">*Model is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Tags</label>
+                            <tag-input formControlName="tags" class="form-control"></tag-input>
+                            <!-- <input type="text" formControlName="tags" class="form-control" placeholder=""> -->
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('tags').touched && reviewForm.get('tags').errors" >
+                        <p *ngIf="reviewForm.get('tags').errors.required" class="errMsg">*Tags are required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Author</label>
+                            <input type="text" formControlName="reviewBy" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('reviewBy').touched && reviewForm.get('reviewBy').errors" >
+                        <p *ngIf="reviewForm.get('reviewBy').errors.required" class="errMsg">*Author is required</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label mb-2">Date</label>
+                            <input type="text" class="form-control" formControlName="createdDate" [bsConfig]="{containerClass:'theme-blue'}" bsDatepicker>
+                            <!-- <input type="date" formControlName="createdDate" class="form-control" placeholder=""> -->
+                        </div>
+                    </div>
+                    <div *ngIf="reviewForm.get('createdDate').touched && reviewForm.get('createdDate').errors" >
+                        <p *ngIf="reviewForm.get('createdDate').errors.required" class="errMsg">*Date is required</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-start footers-btn">
+
+                    <button type="button" (click)="editReview()"
+                        class="btn-style d-flex justify-content-center align-items-center mr-2">
+                        <app-loader *ngIf="isEditBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                        <span *ngIf="!isEditBtnLoaded">SAVE</span>
+                    </button>
+                    
+                    <button type="button" (click)="closeModal()" class="btn-style d-flex justify-content-center align-items-center">CANCEL</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+

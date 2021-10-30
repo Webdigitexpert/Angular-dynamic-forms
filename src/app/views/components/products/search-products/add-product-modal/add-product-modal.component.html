@@ -1,0 +1,77 @@
+<div>
+    <div class="modal-content overflow-hidden">
+        <div class=" modal-header d-flex justify-content-between  align-items-center border-0">
+            <h2>{{ title }}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="ProductAddPopupForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Select Category
+                                </label>
+                                <select formControlName="add_product_category"
+                                    class="selectpicker form-control form-select">
+                                    <option class="valueNull" selected value="">
+                                        Select Category
+                                    </option>
+                                    <!-- <option *ngFor="let category of categories" [value]="category.id">
+                                        {{ category.categoryName }}
+                                    </option> -->
+                                    <optgroup *ngFor="let parent of categoryaddedit" [label]="parent.categoryName">
+                                        <option *ngFor="let child of parent.subCategory" [value]="child.id">
+                                            {{child.categoryName}}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div
+                                *ngIf="ProductAddPopupForm.get('add_product_category').touched && ProductAddPopupForm.get('add_product_category').errors">
+                                <p *ngIf="ProductAddPopupForm.get('add_product_category').errors.required"
+                                    class="errMsg">
+                                    *Select any
+                                    Category</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" value="read" class="d-none td-data-checkbox"
+                                            id="formaster" checked formControlName="ismaster" />
+                                        <label for="formaster" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            For Master</label>
+                                    </div>
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" value="write" class="d-none td-data-checkbox"
+                                            id="forvariant" formControlName="isvarient" />
+                                        <label for="forvariant" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            For Variant</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+
+                        <button type="button" (click)="!isAddBtnLoaded ? addProduct() : ''"
+                            class="btn-style d-flex justify-content-center align-items-center mr-2">
+                            <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                            <span *ngIf="!isAddBtnLoaded">ADD</span>
+                        </button>
+
+                        <button type="button" data-dismiss="modal"
+                            class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">
+                            CANCEL
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

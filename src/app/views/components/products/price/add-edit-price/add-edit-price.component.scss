@@ -1,0 +1,21 @@
+.bootstrap-select .dropdown-toggle::after {
+    width: 1.33rem;
+    height: 1.33rem;
+    min-width: 1.33rem;
+    min-height: 1.33rem;
+    background-size: 100% 100%;
+    border: 0;
+    transform: rotate(
+90deg);
+    margin: 0;
+}
+
+.errMsg{
+    padding-left: 6px;
+    color: red;
+    margin-top: -12px;
+    margin-bottom: 10px;
+}
+.errMsgField{
+    color: red;
+}

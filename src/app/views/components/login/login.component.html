@@ -1,0 +1,55 @@
+<div class="container-fluid"
+>
+    <div class="row minvh-100 align-items-center justify-content-center login-form">
+        <div class="col-md-5 col-sm-12">
+            <div class="text-center mb-4">
+                <img src="../../../../assets/images/logo.svg" height="40" alt="">
+            </div>
+            <form [formGroup]="loginForm">
+            <div class="form-field">
+                <div class="line d-block mb-3"></div>
+                <h1 class="mb-5">Login to CMS Admin </h1>
+                <div class="form-group">
+                    <label for="" class="form-label mb-1">Username</label>
+                    <input trim type="text" class="form-control" formControlName="userName">
+                    <div *ngIf=" loginForm.get('userName').touched &&
+                    loginForm.get('userName').errors">
+                    <p
+                    *ngIf="loginForm.get('userName').errors.required"
+                    class="errMsg"
+                  >
+                    *Username is required
+                  </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label mb-1">Password</label>
+                    <div class="position-relative passwordfilled">
+                        <input trim [type]="password" class="form-control" formControlName="password">
+                        <i (click)="onClick()" #eye class="open"></i>
+
+                        <div
+                        *ngIf="
+                        loginForm.get('password').touched && loginForm.get('password').errors
+                        "
+                      >
+                        <p *ngIf="loginForm.get('password').errors.required" class="errMsg">
+                          *Password is required
+                        </p>
+                        <p *ngIf="loginForm.get('password').errors?.minlength" class="errMsg">
+                          Password should be minimum 6
+                        </p>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group mt-5 mb-0">
+                    <button type="button" (click)="!isLoginBtnLoaded ? onLoginClick() : ''" class="btn-style btn-block">
+                        <app-loader *ngIf="isLoginBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                        <span *ngIf="!isLoginBtnLoaded">Login</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

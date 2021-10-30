@@ -1,0 +1,130 @@
+<div class="content-wr">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Product</h1>
+        <div>
+            <button type="button" class="btn-style btn-width m-0 mr-2">Upload</button>
+            <button type="button" class="btn-style btn-width m-0">Download Format</button>
+        </div>
+    </div>
+    <div class="search-form form-field">
+        <div class="search-field">
+            <div class="field-div">
+                <input type="text" class="form-control" placeholder="Name" [(ngModel)]="searchNamefilter">
+            </div>
+            <div class="field-div">
+                <select [(ngModel)]="domainFilter" class="selectpicker form-control form-select" title="Select Domain"
+                    data-style="btn-info" id="Domain" name="Domain">
+                    <option class="valueNull" selected disabled value="">
+                        Select Domain
+                    </option>
+                    <option class="valueNull" value="">All</option>
+                    <option *ngFor="let domain of domains" [value]="domain.id">
+                        {{ domain.domainName }}
+                    </option>
+                </select>
+            </div>
+            <div class="field-div">
+                <select [(ngModel)]="manufacturerFilter" class="selectpicker form-control form-select"
+                    title="Select Manufacturer" data-style="btn-info" id="manufacturer" name="Manufacturer">
+                    <option class="valueNull" selected disabled value="">
+                        Select Manufacturer
+                    </option>
+                    <option class="valueNull" value="">All</option>
+                    <option *ngFor="let manufacturer of manufacturers" [value]="manufacturer.id">
+                        {{ manufacturer.manufacturerName }}
+                    </option>
+                </select>
+            </div>
+            <div class="field-div">
+                <select [(ngModel)]="categoryFilter" class="selectpicker form-control form-select"
+                    title="Select Category" data-style="btn-info" id="Category" name="Category">
+                    <option class="valueNull" selected disabled value="">
+                        Select Category
+                    </option>
+                    <option class="valueNull" value="">All</option>
+                    <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.categoryName }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="search-add-wr">
+            <button type="submit" class="btn-style btn-block mr-2" (click)="searchProducts()">Search</button>
+            <button type="button" class="btn-style btn-width m-0" (click)="addproduct($event)">Add</button>
+        </div>
+    </div>
+
+    <section class="list-section mt-5">
+        <div class="loader-container" *ngIf="isLoadedTable">
+            <app-loader></app-loader>
+        </div>
+        <form *ngIf="!isLoadedTable">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Domain</th>
+                        <th scope="col">Manufacturers</th>
+                        <th scope="col">Category</th>
+                        <th scope="col" style="text-align: center;">Status</th>
+                        <th scope="col" width="120">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of productsList">
+                        <td>{{product.productName}}</td>
+                        <td *ngIf="product.productFrontImage">
+                            <img src="{{product.productFrontImage != null ? product.productFrontImage.url : '-'}}" height="40" alt="">
+                        </td>
+                        <td *ngIf="!product.productFrontImage">
+                            -
+                        </td>
+                        <td>{{product.productShortDescription}}</td>
+                        <td>{{product.domainMasters ? product.domainMasters[0].domainName : '-'}}</td>
+                        <td>{{product.manufacturerMaster ? product.manufacturerMaster.manufacturerName : '-'}}</td>
+                        <td>{{product.categoryMasters ? product.categoryMasters[0].categoryName : '-'}}</td>
+                        <td class="align-middle text-center">{{ product.active ? 'active' : 'in-active'}}</td>
+                        <td>
+                            <div class="d-flex">
+                                <span *ngIf="product.active" class="edit-icon mr-3" title="Edit" (click)="editProduct(product)"></span>
+                                
+                                <span *ngIf="!product.active" class="edit-icon mr-3" style="opacity: 0.2;" title="disabled"></span>
+
+                                <span *ngIf="!product.active" class="markdone-icon mr-2" title="Active" (click) ="changeStatusproducts(product)"></span>
+                                <span *ngIf="product.active" class="close-bg mr-2" title="Deactive"><span class="markundone-icon"
+                                        (click)="changeStatusproducts(product)"></span>
+                                </span>
+<!-- 
+                                <span class="del-icon mr-3" title="Delete"
+                                    (click)="deleteProduct('deleteproduct')"></span> -->
+
+                                <span class="clone-icon mr-3" title="Clone"
+                                    (click)="cloneProduct(product)"></span>
+
+                                <span class="dealer-icon mr-3" title="Dealers" data-toggle="modal"
+                                    data-target="#del-confirm-popup"></span>
+
+                                <span class="offer-icon mr-3" title="Offers" data-toggle="modal"
+                                    data-target="#del-confirm-popup"></span>
+
+                                <span class="price-icon" title="Prices" data-toggle="modal"
+                                    data-target="#del-confirm-popup"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div class="d-flex justify-content-center p-2 align-center pageinationwidth">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="service.page" (pageChange)="refreshProducts()"
+                [maxSize]="service.maxSize" class="pagination-rounded pagination-here">
+                <ng-template ngbPaginationPrevious>Prev</ng-template>
+                <ng-template ngbPaginationNext>Next</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+                <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+            </ngb-pagination>
+        </div>
+    </section>
+</div>

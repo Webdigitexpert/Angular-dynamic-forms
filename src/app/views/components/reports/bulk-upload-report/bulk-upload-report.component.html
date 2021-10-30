@@ -1,0 +1,76 @@
+<div class="content-wr">
+    <h1 class="mb-4">Bulk Upload Report</h1>
+    <div class="search-form form-field">
+      <div class="search-field">
+        <div class="field-div">
+            <input type="date" class="form-control" placeholder="From Date">
+        </div>
+        <div class="field-div">
+            <input type="date" class="form-control" placeholder="To Date">
+        </div>
+      </div>
+      <div class="search-add-wr addButton">
+        <button
+          type="button"
+          class="btn-style btn-block m-0"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  
+    <form>
+      <table class="table table-bordered bulkReportTable">
+        <thead class="thead-light">
+          <tr>
+            <th width="70" scope="col">Sno.</th>
+            <th scope="col" sortable="date"  (sort)="onSort($event)">Date</th>
+            <th scope="col">Uploaded BY</th>
+            <th scope="col">Results</th>
+            <th
+              width="120"
+              scope="col"
+            >
+            Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of reports">
+            <td scope="row" width="70">
+              <strong>{{ report.sno }}</strong>
+            </td>
+            <td>
+              {{ report.date }}
+            </td>
+            <td>
+                {{ report.UploadedBy }}
+              </td>
+              <td>
+                {{ report.result }}
+              </td>
+            <td  width="120">
+              <div class="d-flex">
+                <span
+                class="download-icon"
+                title="Download"
+                (click)="download(report)"
+              ></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="d-flex justify-content-center p-2 align-center">
+        <ngb-pagination
+          [collectionSize]="collectionSize"
+          [(page)]="service.page"
+          [pageSize]="service.pageSize"
+          (pageChange)="refreshReports()"
+        >
+        </ngb-pagination>
+      </div>
+    </form>
+  </div>
+  

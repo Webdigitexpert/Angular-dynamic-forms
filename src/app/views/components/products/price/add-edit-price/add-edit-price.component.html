@@ -1,0 +1,161 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="priceForm">
+            <div class="form-field">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">ProductId</label>
+                        <input [formControl]="controls.productId" type="text"  class="form-control">
+                        <div>
+                        <div *ngIf="priceForm.get('productId').touched && priceForm.get('productId').errors" >
+                            <p *ngIf="priceForm.get('productId').errors.required" class="errMsgField">*Product id is required</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">ExShowroom Price</label>
+                        <input [formControl]="controls.exShowroomPrice" type="text"  class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">RTO</label>
+                        <input [formControl]="controls.RTO" type="text"  class="form-control">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">Insurance</label>
+                        <input [formControl]="controls.insurance" type="text"  class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">FastTag</label>
+                        <input [formControl]="controls.fastTag" type="text"  class="form-control">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">Extended Warranty Charges</label>
+                        <input [formControl]="controls.extendedWarrantyCharges" type="text"   class="form-control">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                        <label class="form-label mb-2">Amc Charges</label>
+                        <input [formControl]="controls.amcCharges" type="text"  class="form-control">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mb-2">Accessories Charges</label>
+                        <input [formControl]="controls.accessoriesCharges" type="text"   class="form-control">
+                    </div>
+                  </div>
+                <div class="form-row">
+                    <div class="col">
+                         <div class="form-group">
+                            <label class="form-label mb-2">Select City</label>
+                            <select [formControl]="controls.city" class="form-select form-control form-field" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && priceForm.get('city').errors }">
+                                <option value="Active">Noida</option>
+                                <option value="InActive">Delhi</option>
+                              </select>
+                        </div>
+                        <div *ngIf="controls.city.touched && controls.city.errors" >
+                            <p *ngIf="controls.city.errors.required" class="errMsg">*Select any option</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-start footers-btn">
+                    <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2" (click)="createPrice()" >ADD</button>
+                    <button type="button" data-dismiss="modal" class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">CANCEL</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="priceForm">
+                <div class="form-field">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">ProductId</label>
+                            <input [formControl]="controls.productId" type="text" value="data.productId" class="form-control">
+                            <div>
+                            <div *ngIf="priceForm.get('productId').touched && priceForm.get('productId').errors" >
+                                <p *ngIf="priceForm.get('productId').errors.required" class="errMsgField">*Product id is required</p>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">ExShowroom Price</label>
+                            <input [formControl]="controls.exShowroomPrice" type="text" value="data.exShowroomPrice"  class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">RTO</label>
+                            <input [formControl]="controls.RTO" type="text" value="data.RTO"  class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">Insurance</label>
+                            <input [formControl]="controls.insurance" type="text" value="data.insurance"  class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">FastTag</label>
+                            <input [formControl]="controls.fastTag" type="text" value="data.fastTag" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">Extended Warranty Charges</label>
+                            <input [formControl]="controls.extendedWarrantyCharges" type="text"  value="data.extendedWarrantyCharges" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                            <label class="form-label mb-2">Amc Charges</label>
+                            <input [formControl]="controls.amcCharges" type="text" value="data.amcCharges"  class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label mb-2">Accessories Charges</label>
+                            <input [formControl]="controls.accessoriesCharges" type="text"  value="data.accessoriesCharges" class="form-control">
+                        </div>
+                      </div>
+                    <div class="form-row">
+                        <div class="col">
+                             <div class="form-group">
+                                <label class="form-label mb-2">Select City</label>
+                                <select [formControl]="controls.city" class="form-select form-control form-field" aria-label="Default select example" [ngClass]="{ 'is-invalid': submitted && priceForm.get('city').errors }">
+                                    <option value="Active">Noida</option>
+                                    <option value="InActive">Delhi</option>
+                                  </select>
+                            </div>
+                            <div *ngIf="controls.city.touched && controls.city.errors" >
+                                <p *ngIf="controls.city.errors.required" class="errMsg">*Select any option</p>
+                            </div>
+    
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2" (click)="editPrice()" >EDIT</button>
+                        <button type="button" data-dismiss="modal" class="btn-style d-flex justify-content-center align-items-center" (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+
+

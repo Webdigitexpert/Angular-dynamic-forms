@@ -1,0 +1,279 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="manufacturerForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Name</label>
+                                <input type="text" formControlName="manufacturerName" class="form-control"
+                                    placeholder="">
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('manufacturerName').touched && manufacturerForm.get('manufacturerName').errors">
+                            <p *ngIf="manufacturerForm.get('manufacturerName').errors.required" class="errMsg">*Name is
+                                required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Logo</label>
+                                <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg"
+                                    class="form-control" (change)="onFileSelect($event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Description</label>
+                                <textarea name="" id="" formControlName="description" class="form-control" cols="30"
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('description').touched && manufacturerForm.get('description').errors">
+                            <p *ngIf="manufacturerForm.get('description').errors.required" class="errMsg">
+                                *Description is required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Select Parent Category</label>
+                                <app-select-categories (SelectedValue)="getselectedCategory($event)">
+                                </app-select-categories>
+                                <!-- <select formControlName="parentCategory" class="form-select form-control form-field" aria-label="Default select example" >
+                                    <option class="valueNull" selected disabled value="">Select Parent Category</option>
+                                    <option class="valueNull" value="">None</option>
+                                    <option  *ngFor="let parentCategory of parentCategories" [value]="parentCategory.id">
+                                        {{parentCategory.categoryName}}
+                                    </option>
+                                  </select> -->
+                            </div>
+                            <div
+                                *ngIf="manufacturerForm.get('parentCategory').touched && manufacturerForm.get('parentCategory').errors">
+                                <p *ngIf="manufacturerForm.get('parentCategory').errors.required" class="errMsg">*Select
+                                    any parent category</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Title</label>
+                                <input type="text" formControlName="metaTitle" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('metaTitle').touched && manufacturerForm.get('metaTitle').errors">
+                            <p *ngIf="manufacturerForm.get('metaTitle').errors.required" class="errMsg">*Meta title is
+                                required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Description</label>
+                                <textarea name="" id="" formControlName="metaDescription" class="form-control" cols="30"
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('metaDescription').touched && manufacturerForm.get('metaDescription').errors">
+                            <p *ngIf="manufacturerForm.get('metaDescription').errors.required" class="errMsg">*Meta
+                                discription is required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Select Domain</label>
+                                <!-- <app-multiselectdropdown [inputdata]="multiselectDomain" (multiSelectedData)="getmultipleDomains($event)"></app-multiselectdropdown> -->
+                                <ng-select
+                                [items]="domains"
+                                bindLabel="domainName"
+                                bindValue="id"
+                                [multiple]="true"
+                                placeholder="Select domain"
+                                formControlName="domainId"
+                              >
+                              </ng-select>
+                                <!-- <select formControlName="domainId" class="selectpicker form-control form-select">
+                                    <option class="valueNull" selected value="">Select Domain</option>
+                                    <option *ngFor="let domain of domains" [value]="domain.id">{{domain.domainName}}
+                                    </option>
+                                </select> -->
+                            </div>
+                            <div
+                                *ngIf="manufacturerForm.get('domainId').touched && manufacturerForm.get('domainId').errors">
+                                <p *ngIf="manufacturerForm.get('domainId').errors.required" class="errMsg">*Select any
+                                    domain</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+
+                        <button type="button" (click)="!isAddBtnLoaded ? createManufacturer() : ''" class="btn-style d-flex justify-content-center align-items-center mr-2">
+                            <app-loader *ngIf="isAddBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                            <span *ngIf="!isAddBtnLoaded">ADD</span>
+                        </button>
+                        <button type="button" (click)="closeModal()"
+                            class="btn-style d-flex justify-content-center align-items-center">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="manufacturerForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Name</label>
+                                <input type="text" formControlName="manufacturerName" class="form-control"
+                                    placeholder="">
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('manufacturerName').touched && manufacturerForm.get('manufacturerName').errors">
+                            <p *ngIf="manufacturerForm.get('manufacturerName').errors.required" class="errMsg">*Name is
+                                required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Logo</label>
+                                <div>
+                                    <img *ngIf="manufacturerLogo" class="border rounded my-2" height="40px"
+                                        src="{{manufacturerLogo}}" alt="">
+                                </div>
+                                <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg"
+                                    class="form-control" (change)="onFileSelect($event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Description</label>
+                                <textarea name="" id="" formControlName="description" class="form-control" cols="30"
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('description').touched && manufacturerForm.get('description').errors">
+                            <p *ngIf="manufacturerForm.get('description').errors.required" class="errMsg">
+                                *Description is required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Select Parent Category</label>
+                                <!-- <select formControlName="parentCategory" class="form-select form-control form-field" aria-label="Default select example" >
+                                    <option class="valueNull" selected disabled value="">Select Parent Category</option>
+                                    <option class="valueNull" value="">None</option>
+                                    <option  *ngFor="let parentCategory of parentCategories" [value]="parentCategory.id">
+                                        {{parentCategory.categoryName}}
+                                    </option>
+                                  </select> -->
+                                <app-select-categories [setSelectedcategory]="setSelectedcategory"
+                                    (SelectedValue)="getselectedCategory($event)"></app-select-categories>
+                            </div>
+                            <div
+                                *ngIf="manufacturerForm.get('parentCategory').touched && manufacturerForm.get('parentCategory').errors">
+                                <p *ngIf="manufacturerForm.get('parentCategory').errors.required" class="errMsg">*Select
+                                    any parent category</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Title</label>
+                                <input type="text" formControlName="metaTitle" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('metaTitle').touched && manufacturerForm.get('metaTitle').errors">
+                            <p *ngIf="manufacturerForm.get('metaTitle').errors.required" class="errMsg">*Meta title is
+                                required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Meta Description</label>
+                                <textarea name="" id="" formControlName="metaDescription" class="form-control" cols="30"
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="manufacturerForm.get('metaDescription').touched && manufacturerForm.get('metaDescription').errors">
+                            <p *ngIf="manufacturerForm.get('metaDescription').errors.required" class="errMsg">*Meta
+                                discription is required</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Select Domain</label>
+                                <ng-select
+                                [items]="domains"
+                                bindLabel="domainName"
+                                bindValue="id"
+                                [multiple]="true"
+                                placeholder="Select domain"
+                                formControlName="domainId"
+                              >
+                              </ng-select>
+                                <!-- <select formControlName="domainId" class="selectpicker form-control form-select">
+                                    <option class="valueNull" selected value="">Select Domain</option>
+                                    <option *ngFor="let domain of domains" [value]="domain.id">{{domain.domainName}}
+                                    </option>
+
+                                </select> -->
+                            </div>
+                            <div
+                                *ngIf="manufacturerForm.get('domainId').touched && manufacturerForm.get('domainId').errors">
+                                <p *ngIf="manufacturerForm.get('domainId').errors.required" class="errMsg">*Select any
+                                    domain</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+                        <button type="button" (click)="!isEditBtnLoaded ? editManufacturer() : ''"
+                            class="btn-style d-flex justify-content-center align-items-center mr-2">
+                            <app-loader *ngIf="isEditBtnLoaded" loaderSize="small" loaderColor="light"></app-loader>
+                            <span *ngIf="!isEditBtnLoaded">SAVE</span>
+                        </button>
+                        <button type="button" (click)="closeModal()"
+                            class="btn-style d-flex justify-content-center align-items-center">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

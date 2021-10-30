@@ -1,0 +1,392 @@
+<div *ngIf="type == 'add'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="attributeSetForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Name</label>
+                <input
+                  type="text"
+                  formControlName="attributeSetName"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                attributeSetForm.get('attributeSetName').touched &&
+                attributeSetForm.get('attributeSetName').errors
+              "
+            >
+              <p
+                *ngIf="attributeSetForm.get('attributeSetName').errors.required"
+                class="errMsg"
+              >
+                *Name is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Category</label>
+                <!-- <app-select-categories
+                  (SelectedValue)="getselectedCategory($event)"
+                >
+                </app-select-categories> -->
+                <select class="form-control" formControlName="categoryDescriptionIds">
+                  <option selected value="" disabled>Select any category</option>
+                  <optgroup  *ngFor="let parent of categoryaddedit" [label]="parent.categoryName">
+                    <option *ngFor ="let child of parent.subCategory" [value]="child.id" >{{child.categoryName}}</option>
+                  </optgroup>
+                </select>  
+              </div>
+              <div
+                *ngIf="
+                  attributeSetForm.get('categoryDescriptionIds').touched &&
+                  attributeSetForm.get('categoryDescriptionIds').errors
+                "
+              >
+                <p
+                  *ngIf="attributeSetForm.get('categoryDescriptionIds').errors.required"
+                  class="errMsg"
+                >
+                  *Select any parent category
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Domain</label>
+                <select
+                  formControlName="domainMaster"
+                  class="selectpicker form-control form-select"
+                >
+                  <option class="valueNull" selected value="">
+                    Select Domain
+                  </option>
+                  <option *ngFor="let domain of domains" [value]="domain.id">
+                    {{ domain.domainName }}
+                  </option>
+                </select>
+              </div>
+              <div
+                *ngIf="
+                  attributeSetForm.get('domainMaster').touched &&
+                  attributeSetForm.get('domainMaster').errors
+                "
+              >
+                <p
+                  *ngIf="attributeSetForm.get('domainMaster').errors.required"
+                  class="errMsg"
+                >
+                  *Select any domain
+                </p>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <div class="d-flex align-items-center unit-type-check">
+                  <div class="check-box d-flex justify-content-center mr-3">
+                    <input
+                      type="radio"
+                      value="M"
+                      formControlName="masterVarientFlag"
+                      checked=""
+                      class="d-none td-data-checkbox"
+                      id="formaster1"
+                      name="masterVarientFlag"
+                    />
+                    <label for="formaster1" class="d-flex"
+                      ><span
+                        class="check-box-icon d-block svg-medium-size mr-2"
+                      ></span>
+                      For Master</label
+                    >
+                  </div>
+                  <div class="check-box d-flex justify-content-center mr-3">
+                    <input
+                      type="radio"
+                      formControlName="masterVarientFlag"
+                      value="V"
+                      class="d-none td-data-checkbox"
+                      id="forvariant1"
+                      name="masterVarientFlag"
+                    />
+                    <label for="forvariant1" class="d-flex"
+                      ><span
+                        class="check-box-icon d-block svg-medium-size mr-2"
+                      ></span>
+                      For Variant</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              (click)="!isAddBtnLoaded ? createAttributeSet() : ''"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+            >
+              <app-loader
+                *ngIf="isAddBtnLoaded"
+                loaderSize="small"
+                loaderColor="light"
+              ></app-loader>
+              <span *ngIf="!isAddBtnLoaded">ADD</span>
+            </button>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="btn-style d-flex justify-content-center align-items-center"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type == 'edit'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="attributeSetForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Name</label>
+                <input
+                  type="text"
+                  formControlName="attributeSetName"
+                  class="form-control"
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                attributeSetForm.get('attributeSetName').touched &&
+                attributeSetForm.get('attributeSetName').errors
+              "
+            >
+              <p
+                *ngIf="attributeSetForm.get('attributeSetName').errors.required"
+                class="errMsg"
+              >
+                *Name is required
+              </p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Category</label>
+                <!-- <app-select-categories
+                  [setSelectedcategory]="setSelectedcategory"
+                  (SelectedValue)="getselectedCategory($event)"
+                ></app-select-categories> -->
+                <select class="form-control" formControlName="categoryDescriptionIds">
+                  <optgroup  *ngFor="let parent of categoryaddedit" [label]="parent.categoryName">
+                    <option *ngFor ="let child of parent.subCategory" [value]="child.id" >{{child.categoryName}}</option>
+                  </optgroup>
+                </select>           
+              </div>
+              <div
+                *ngIf="
+                  attributeSetForm.get('categoryDescriptionIds').touched &&
+                  attributeSetForm.get('categoryDescriptionIds').errors
+                "
+              >
+                <p
+                  *ngIf="attributeSetForm.get('categoryDescriptionIds').errors.required"
+                  class="errMsg"
+                >
+                  *Select any parent category
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">Select Domain</label>
+                <select
+                  formControlName="domainMaster"
+                  class="selectpicker form-control form-select"
+                >
+                  <option class="valueNull" selected value="">
+                    Select Domain
+                  </option>
+                  <option *ngFor="let domain of domains" [value]="domain.id">
+                    {{ domain.domainName }}
+                  </option>
+                </select>
+              </div>
+              <div
+                *ngIf="
+                  attributeSetForm.get('domainMaster').touched &&
+                  attributeSetForm.get('domainMaster').errors
+                "
+              >
+                <p
+                  *ngIf="attributeSetForm.get('domainMaster').errors.required"
+                  class="errMsg"
+                >
+                  *Select any domain
+                </p>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="radio" [value]="isForMaster" class="d-none td-data-checkbox"
+                                            id="isForMaster"
+                                            name="isFormMaster"
+                                            [formControl]="attributeSetForm.get('masterVarientFlag')"
+                                             />
+                                        <label for="isForMaster" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            For Master</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="radio" [value]="masterVarientFlag" class="d-none td-data-checkbox"
+                                            id="isForMaster"
+                                            name="isForMaster"
+                                            [formControl]="attributeSetForm.get('masterVarientFlag')"
+                                             />
+                                        <label for="isForVariant" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Facet Field</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <div class="d-flex align-items-center unit-type-check">
+                  <div class="check-box d-flex justify-content-center mr-3">
+                    <input
+                      type="radio"
+                      value="M"
+                      formControlName="masterVarientFlag"
+                      [checked]="variantCheck =='M'"
+                      class="d-none td-data-checkbox"
+                      id="formaster1"
+                      name="masterVarientFlag"
+                    />
+                    <label for="formaster1" class="d-flex"
+                      ><span
+                        class="check-box-icon d-block svg-medium-size mr-2"
+                      ></span>
+                      For Master</label
+                    >
+                  </div>
+                  <div class="check-box d-flex justify-content-center mr-3">
+                    <input
+                      type="radio"
+                      formControlName="masterVarientFlag"
+                      value="V"
+                      class="d-none td-data-checkbox"
+                      id="forvariant1"
+                      name="masterVarientFlag"
+                      [checked]="variantCheck =='V'"
+                    />
+                    <label for="forvariant1" class="d-flex"
+                      ><span
+                        class="check-box-icon d-block svg-medium-size mr-2"
+                      ></span>
+                      For Variant</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              (click)="!isEditBtnLoaded ? editAttributeSet() : ''"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+            >
+              <app-loader
+                *ngIf="isEditBtnLoaded"
+                loaderSize="small"
+                loaderColor="light"
+              ></app-loader>
+              <span *ngIf="!isEditBtnLoaded">SAVE</span>
+            </button>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="btn-style d-flex justify-content-center align-items-center"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

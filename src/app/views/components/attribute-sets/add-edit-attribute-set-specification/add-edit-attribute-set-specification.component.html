@@ -1,0 +1,223 @@
+<div *ngIf="type=='add'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="attributeSetSpecificationForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Label</label>
+                                <input trims [formControl]="attributeSetSpecificationForm.get('attributeLabel')"
+                                    type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="controls.attributeLabel.touched && attributeSetSpecificationForm.get('attributeLabel').errors">
+                            <p *ngIf="attributeSetSpecificationForm.get('attributeLabel').errors.required"
+                                class="errMsg">*AttributeSetSpecification is required
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check d-flex justify-content-center mr-3">
+                                        <input class="form-check-input" id="numeric" type="radio" value=false name="isAlphaNumeric" formControlName="isAlphaNumeric">
+                                        <label class="form-check-label" for="numeric">Numeric</label>
+                                    </div>
+                                    <div class="form-check d-flex justify-content-center mr-3">
+                                        <input class="form-check-input" id="alphaNumeric" type="radio" value=true name="isAlphaNumeric" formControlName="isAlphaNumeric">
+                                        <label for="alphaNumeric" class="form-check-label">AlphaNumeric</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" [value]="isUnit" class="d-none td-data-checkbox"
+                                            id="isUnit" [formControl]="attributeSetSpecificationForm.get('isUnit')"
+                                            [checked]="isUnit" (change)="checkboxVal($event, 'isUnit')" />
+                                        <label for="isUnit" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Unit</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group" [hidden]="!isUnitChecked">
+                                    <input trims [formControl]="attributeSetSpecificationForm.get('unit')" type="text"
+                                    placeholder="Enter unit here"  class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" [value]="isFacet" class="d-none td-data-checkbox"
+                                            id="isFacet"
+                                            [formControl]="attributeSetSpecificationForm.get('isFacet')"
+                                            [checked]="isFacet" />
+                                        <label for="isFacet" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Facet Field</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" [value]="isMandatory" class="d-none td-data-checkbox"
+                                            id="isMandatory"
+                                            [formControl]="attributeSetSpecificationForm.get('isMandatory')"
+                                            [checked]="isMandatory" />
+                                        <label for="isMandatory" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Mandatory</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2"
+                            (click)="createAttributeSetSpecification()">ADD</button>
+                        <button type="button" data-dismiss="modal"
+                            class="btn-style d-flex justify-content-center align-items-center"
+                            (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="type=='edit'">
+    <div class="modal-content overflow-hidden">
+        <div class="modal-header d-flex justify-content-between align-items-center border-0">
+            <h2>{{title}}</h2>
+            <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="attributeSetSpecificationForm">
+                <div class="form-field">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label mb-2">Label</label>
+                                <input trims [formControl]="attributeSetSpecificationForm.get('attributeLabel')"
+                                    type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="controls.attributeLabel.touched && attributeSetSpecificationForm.get('attributeLabel').errors">
+                            <p *ngIf="attributeSetSpecificationForm.get('attributeLabel').errors.required"
+                                class="errMsg">*AttributeSetSpecification is required
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="numeric" type="radio" [value]=false  name="isAlphaNumeric" [formControl]="attributeSetSpecificationForm.get('isAlphaNumeric')">
+                                        <label class="form-check-label" for="numeric">Numeric</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="alphaNumeric" type="radio" [value]=true name="isAlphaNumeric"  [formControl]="attributeSetSpecificationForm.get('isAlphaNumeric')">
+                                        <label for="alphaNumeric" class="form-check-label">AlphaNumeric</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" [value]="isUnit" class="d-none td-data-checkbox"
+                                            id="isUnit" [formControl]="attributeSetSpecificationForm.get('isUnit')"
+                                            [checked]="isUnit" (change)="checkboxVal($event, 'isUnit')" />
+                                        <label for="isUnit" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Unit</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group" [hidden]="!isUnitChecked">
+                                    <input trims [formControl]="attributeSetSpecificationForm.get('unit')" type="text"
+                                    placeholder="Enter unit here"  class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" [value]="isFacet" class="d-none td-data-checkbox"
+                                            id="isFacet"
+                                            [formControl]="attributeSetSpecificationForm.get('isFacet')"
+                                            [checked]="isFacet" />
+                                        <label for="isFacet" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Facet Field</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="d-flex align-items-center unit-type-check">
+                                    <div class="check-box d-flex justify-content-center mr-3">
+                                        <input type="checkbox" [value]="isMandatory" class="d-none td-data-checkbox"
+                                            id="isMandatory"
+                                            [formControl]="attributeSetSpecificationForm.get('isMandatory')"
+                                            [checked]="isMandatory" />
+                                        <label for="isMandatory" class="d-flex">
+                                            <span class="check-box-icon d-block svg-medium-size mr-2"></span>
+                                            Is Mandatory</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start footers-btn">
+                        <button type="button" class="btn-style d-flex justify-content-center align-items-center mr-2"
+                            (click)="editAttributeSetSpecification()">EDIT</button>
+                        <button type="button" data-dismiss="modal"
+                            class="btn-style d-flex justify-content-center align-items-center"
+                            (click)="closeModal()">CANCEL</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

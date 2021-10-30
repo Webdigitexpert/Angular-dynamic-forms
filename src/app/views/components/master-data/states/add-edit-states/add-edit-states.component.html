@@ -1,0 +1,160 @@
+<div *ngIf="type == 'add'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="stateForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">State name</label>
+                <input
+                  [formControl]="stateForm.get('state')"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                stateForm.get('state').touched && stateForm.get('state').errors
+              "
+            >
+              <p *ngIf="stateForm.get('state').errors.required" class="errMsg">
+                *State Name is required
+              </p>
+              <p
+                *ngIf="stateForm.get('state').errors?.maxlength"
+                class="errMsg"
+              >
+                *State name is exceeding max characters
+              </p>
+            </div>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+              (click)="createState()"
+            >
+              <app-loader
+                *ngIf="isAddBtnLoaded"
+                loaderSize="small"
+                loaderColor="light"
+              ></app-loader>
+              <span *ngIf="!isAddBtnLoaded">ADD</span>
+            </button>
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn-style d-flex justify-content-center align-items-center"
+              (click)="closeModal()"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="type == 'edit'">
+  <div class="modal-content overflow-hidden">
+    <div
+      class="
+        modal-header
+        d-flex
+        justify-content-between
+        align-items-center
+        border-0
+      "
+    >
+      <h2>{{ title }}</h2>
+      <span (click)="closeModal()" class="close-icon svg-big-size"></span>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="stateForm">
+        <div class="form-field">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <label class="form-label mb-2">State name</label>
+                <input
+                  [formControl]="controls.state"
+                  type="text"
+                  value="data.name"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div
+              *ngIf="
+                stateForm.get('state').touched && stateForm.get('state').errors
+              "
+            >
+              <p *ngIf="stateForm.get('state').errors.required" class="errMsg">
+                *State name is required
+              </p>
+              <p
+                *ngIf="stateForm.get('state').errors?.maxlength"
+                class="errMsg"
+              >
+                *State name is exceeding max characters
+              </p>
+            </div>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-start footers-btn"
+          >
+            <button
+              type="button"
+              class="
+                btn-style
+                d-flex
+                justify-content-center
+                align-items-center
+                mr-2
+              "
+              (click)="editState()"
+            >
+              <app-loader
+                *ngIf="isEditBtnLoaded"
+                loaderSize="small"
+                loaderColor="light"
+              ></app-loader>
+              <span *ngIf="!isEditBtnLoaded">SAVE</span>
+            </button>
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn-style d-flex justify-content-center align-items-center"
+              (click)="closeModal()"
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

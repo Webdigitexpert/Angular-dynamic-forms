@@ -1,0 +1,150 @@
+<div class="content-wr">
+  <h1 class="mb-4">City</h1>
+  <div class="search-form form-field">
+    <div class="search-field">
+      <div class="field-div">
+        <input
+          type="text"
+          trims
+          class="form-control"
+          placeholder="City"
+          [(ngModel)]="cityName"
+        />
+      </div>
+      <div class="field-div">
+        <input
+          type="text"
+          trims
+          class="form-control"
+          placeholder="Pincode"
+          [(ngModel)]="pincode"
+        />
+      </div>
+      <div class="field-div">
+        <select
+          [(ngModel)]="stateDropdown"
+          class="form-select form-control form-field"
+          aria-label="Default select example"
+        >
+          <option selected disabled class="valueNull" value="">
+            Select State
+          </option>
+          <option class="valueNull" value="">All</option>
+          <option *ngFor="let state of states" [value]="state.stateId">
+            {{ state.stateName }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="search-add-wr addButton">
+      <button
+        type="submit"
+        class="btn-style btn-block mr-2"
+        (click)="searchCity()"
+      >
+        Search
+      </button>
+      <button
+        type="button"
+        class="btn-style btn-block m-0"
+        (click)="opendialog($event)"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <section class="list-section mt-5">
+    <div class="loader-container" *ngIf="isLoadedTable">
+        <app-loader></app-loader>
+    </div>
+  <form *ngIf="!isLoadedTable">
+    <table class="table table-bordered cityTable">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" (click)="sort('city')">
+            <i
+              *ngIf="sortbyclick == 'asc'"
+              class="fa fa-arrow-up"
+              aria-hidden="true"
+            ></i>
+            <i
+              *ngIf="sortbyclick == 'desc'"
+              class="fa fa-arrow-down"
+              aria-hidden="true"
+            ></i>
+            City
+          </th>
+
+          <th scope="col">State</th>
+          <th scope="col">Pin Codes</th>
+          <th scope="col">Status</th>
+          <th width="120" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let city of cityList">
+          <td>
+            {{ city.city }}
+          </td>
+          <td>{{ city.stateName }}</td>
+          <td>
+            {{ city.pincode }}
+          </td>
+          <td>
+            <p *ngIf="city.active">Active</p>
+            <p *ngIf="!city.active">In-active</p>
+          </td>
+
+          <td width="120">
+            <div class="d-flex">
+              <button
+                class="btn btn-default"
+                [disabled]="!city.active"
+                (click)="editCity(city)"
+              >
+                <span class="edit-icon mr-3" title="Edit"></span>
+              </button>
+
+              <!-- <span
+                class="del-icon"
+                title="Delete"
+                (click)="deleteCity(city)"
+              ></span> -->
+                
+              <span
+                (click)="activateDeactivate(city)"
+                *ngIf="!city.active"
+                class="markdone-icon mr-3"
+                title="Active"
+              ></span>
+
+              <span
+                *ngIf="city.active"
+                (click)="activateDeactivate(city)"
+                class="close-bg mr-3"
+                title="Deactive"
+                ><span class="markundone-icon" title="Deactivate"></span>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center p-2 align-center">
+      <ngb-pagination
+        [collectionSize]="collectionSize"
+        [(page)]="service.page"
+        [pageSize]="service.pageSize"
+        (pageChange)="refreshCitys()"
+        class="pagination-rounded pagination-here"
+      >
+      <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+        <ng-template ngbPaginationEllipsis>...</ng-template>
+        <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
+      </ngb-pagination>
+    </div>
+  </form>
+  </section>
+</div>

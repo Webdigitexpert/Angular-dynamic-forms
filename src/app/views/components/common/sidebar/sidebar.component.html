@@ -1,0 +1,62 @@
+<menu class="sidebar px-3">
+    <ul class="navbar-nav">
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link d-flex align-items-center" routerLink="/users">
+                Users
+            </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link d-flex align-items-center" routerLink="/domain">
+                Domains
+            </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link d-flex align-items-center" routerLink="/categories">
+                Categories
+            </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link d-flex align-items-center" routerLink="/manufacturers">
+                Manufacturers
+            </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link d-flex align-items-center" routerLink="/attributeSets">
+                Attribute Sets
+            </a>
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+            <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-display="static">Product</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" routerLink="/products">Product</a></li>
+              <li><a class="dropdown-item" routerLink="/products/prices">Price</a></li>
+              <li><a class="dropdown-item" routerLink="/products/offer">Offer</a></li>
+              <li><a class="dropdown-item" routerLink="/products/dealer">Dealer</a></li>
+            </ul>
+        </div>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link d-flex align-items-center" routerLink="/productReviews">
+                Reviews
+            </a>
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+        <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  data-display="static">Master Data</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" routerLink="/masterData/states">State</a></li>
+              <li><a class="dropdown-item" routerLink="/masterData/citys">City</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+            <div class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-display="static">Reports</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item"routerLink="/reports/bulkUploadReport">Bulk Upload Report</a></li>
+            </ul>
+        </div>
+        </li>
+    </ul>
+</menu>
